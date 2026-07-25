@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Studio B — Creative Agency</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --eggshell: #F2EDE4;
+      --cream: #FAF7F2;
+      --warm-white: #FDFBF8;
+      --ink: #1A1916;
+      --charcoal: #2E2C28;
+      --mid: #6B6860;
+      --light: #B8B4AC;
+      --rule: #DDD8CE;
+      --gold: #C9A96E;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      background-color: var(--warm-white);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 4rem;
+      background: rgba(253, 251, 248, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.4s;
+    }
+
+    nav.scrolled {
+      border-color: var(--rule);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 3rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mid);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--ink);
+    }
+
+    .nav-cta {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .nav-cta:hover {
+      color: var(--gold);
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 6rem;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 4rem 6rem 4rem;
+      border-right: 1px solid var(--rule);
+    }
+
+    .hero-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 6vw, 6rem);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-heading em {
+      font-style: italic;
+      color: var(--charcoal);
+    }
+
+    .hero-sub {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--mid);
+      max-width: 38ch;
+      margin-bottom: 3.5rem;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--warm-white);
+      background: var(--ink);
+      text-decoration: none;
+      padding: 1.1rem 2.4rem;
+      transition: background 0.25s;
+      align-self: flex-start;
+    }
+
+    .btn-primary:hover {
+      background: var(--charcoal);
+    }
+
+    .btn-primary .arrow {
+      font-size: 1rem;
+      transition: transform 0.2s;
+    }
+
+    .btn-primary:hover .arrow {
+      transform: translateX(4px);
+    }
+
+    .hero-right {
+      position: relative;
+      background-color: var(--eggshell);
+      overflow: hidden;
+    }
+
+    .hero-visual {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-mark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(16rem, 28vw, 28rem);
+      font-weight: 300;
+      color: rgba(26, 25, 22, 0.06);
+      line-height: 1;
+      user-select: none;
+    }
+
+    .hero-badge {
+      position: absolute;
+      bottom: 3rem;
+      right: 3rem;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .hero-badge span {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid);
+      line-height: 1.8;
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      overflow: hidden;
+      background: var(--ink);
+      padding: 1.1rem 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 0;
+      animation: marquee 24s linear infinite;
+      white-space: nowrap;
+    }
+
+    .marquee-track span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--eggshell);
+      padding: 0 2.5rem;
+      opacity: 0.7;
+    }
+
+    .marquee-track .dot {
+      font-style: normal;
+      color: var(--gold);
+      opacity: 1;
+      padding: 0;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── SECTION COMMONS ── */
+    section {
+      padding: 8rem 4rem;
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 4rem;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 2rem;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .section-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 4vw, 4rem);
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--ink);
+    }
+
+    .section-heading em {
+      font-style: italic;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      background: var(--eggshell);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .about-left .section-heading {
+      margin-bottom: 2rem;
+    }
+
+    .about-left p {
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: var(--mid);
+      margin-bottom: 1.5rem;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--rule);
+      margin-top: 3rem;
+    }
+
+    .stat {
+      padding: 2rem 0;
+      border-right: 1px solid var(--rule);
+    }
+
+    .stat:last-child {
+      border-right: none;
+      padding-left: 2rem;
+    }
+
+    .stat:not(:first-child) {
+      padding-left: 2rem;
+    }
+
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem;
+      font-weight: 300;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    .about-right {
+      position: relative;
+    }
+
+    .about-image-frame {
+      aspect-ratio: 3/4;
+      background: var(--cream);
+      border: 1px solid var(--rule);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .about-image-inner {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 8rem;
+      color: rgba(26,25,22,0.04);
+      font-weight: 300;
+    }
+
+    .about-caption {
+      position: absolute;
+      bottom: -1rem;
+      right: -1rem;
+      background: var(--ink);
+      color: var(--eggshell);
+      padding: 1.5rem 2rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── SERVICES ── */
+    #services {
+      background: var(--warm-white);
+    }
+
+    .services-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: end;
+      margin-bottom: 5rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .services-intro {
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: var(--mid);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-left: 1px solid var(--rule);
+    }
+
+    .service-item {
+      padding: 3rem;
+      border-right: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      transition: background 0.3s;
+      cursor: default;
+    }
+
+    .service-item:hover {
+      background: var(--eggshell);
+    }
+
+    .service-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 300;
+      color: var(--rule);
+      line-height: 1;
+      margin-bottom: 2rem;
+    }
+
+    .service-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+
+    .service-desc {
+      font-size: 0.85rem;
+      line-height: 1.8;
+      color: var(--mid);
+    }
+
+    /* ── WORK ── */
+    #work {
+      background: var(--ink);
+      color: var(--eggshell);
+    }
+
+    #work .section-label {
+      color: var(--light);
+    }
+
+    #work .section-heading {
+      color: var(--eggshell);
+      margin-bottom: 4rem;
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .work-item {
+      background: var(--ink);
+      aspect-ratio: 4/3;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .work-item.large {
+      grid-column: span 2;
+      aspect-ratio: 21/9;
+    }
+
+    .work-bg {
+      position: absolute;
+      inset: 0;
+      background: var(--charcoal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+
+    .work-item:hover .work-bg {
+      transform: scale(1.04);
+    }
+
+    .work-bg-letter {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 12rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.04);
+    }
+
+    .work-info {
+      position: relative;
+      z-index: 2;
+      padding: 2rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.7));
+      width: 100%;
+    }
+
+    .work-category {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .work-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 300;
+      color: var(--eggshell);
+    }
+
+    /* ── PROCESS ── */
+    #process {
+      background: var(--cream);
+    }
+
+    .process-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      margin-bottom: 5rem;
+    }
+
+    .process-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .process-step {
+      display: grid;
+      grid-template-columns: 5rem 1fr;
+      gap: 2rem;
+      padding: 2.5rem 0;
+      border-bottom: 1px solid var(--rule);
+      align-items: start;
+    }
+
+    .step-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--light);
+      padding-top: 0.1rem;
+    }
+
+    .step-content h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.6rem;
+    }
+
+    .step-content p {
+      font-size: 0.85rem;
+      line-height: 1.8;
+      color: var(--mid);
+    }
+
+    /* ── TESTIMONIAL ── */
+    #testimonial {
+      background: var(--eggshell);
+      text-align: center;
+      padding: 8rem 10%;
+    }
+
+    .testimonial-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 3vw, 3rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.4;
+      color: var(--ink);
+      margin-bottom: 3rem;
+    }
+
+    .testimonial-attr {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .attr-line {
+      width: 2rem;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .attr-text {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--warm-white);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+
+    #contact .section-heading {
+      margin-bottom: 2rem;
+    }
+
+    .contact-intro {
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: var(--mid);
+      margin-bottom: 3rem;
+    }
+
+    .contact-detail {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .contact-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .contact-row-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--light);
+    }
+
+    .contact-row-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--ink);
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--rule);
+      padding: 0.8rem 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--ink);
+    }
+
+    .form-group textarea {
+      resize: none;
+      height: 100px;
+    }
+
+    .form-submit {
+      margin-top: 1rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      color: var(--eggshell);
+      padding: 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      align-items: end;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+    }
+
+    .footer-center {
+      text-align: center;
+    }
+
+    .footer-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--light);
+    }
+
+    .footer-right {
+      text-align: right;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      align-items: flex-end;
+    }
+
+    .footer-links a {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mid);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--eggshell);
+    }
+
+    .footer-copy {
+      grid-column: 1 / -1;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 2rem;
+      margin-top: 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-copy p {
+      font-size: 0.7rem;
+      color: var(--mid);
+      letter-spacing: 0.05em;
+    }
+
+    .footer-copy .gold {
+      color: var(--gold);
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav {
+        padding: 1.2rem 2rem;
+      }
+      .nav-links {
+        display: none;
+      }
+      section {
+        padding: 5rem 2rem;
+      }
+      #hero {
+        grid-template-columns: 1fr;
+      }
+      .hero-right {
+        display: none;
+      }
+      #about {
+        grid-template-columns: 1fr;
+      }
+      .about-right {
+        display: none;
+      }
+      .services-header {
+        grid-template-columns: 1fr;
+      }
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+      .work-grid {
+        grid-template-columns: 1fr;
+      }
+      .work-item.large {
+        grid-column: span 1;
+        aspect-ratio: 4/3;
+      }
+      .process-header {
+        grid-template-columns: 1fr;
+      }
+      #contact {
+        grid-template-columns: 1fr;
+      }
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      footer {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 3rem 2rem;
+      }
+      .footer-center,
+      .footer-right {
+        text-align: left;
+      }
+      .footer-links {
+        align-items: flex-start;
+      }
+      .about-stats {
+        grid-template-columns: 1fr;
+      }
+      .stat {
+        border-right: none;
+        border-bottom: 1px solid var(--rule);
+        padding-left: 0 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a class="nav-logo" href="#">Studio B</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#process">Process</a></li>
+    </ul>
+    <a class="nav-cta" href="#contact">Start a project</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">Est. 2018 &nbsp;·&nbsp; New York</p>
+      <h1 class="hero-heading">
+        Craft that<br />
+        <em>commands</em><br />
+        attention.
+      </h1>
+      <p class="hero-sub">
+        Studio B is a boutique creative agency building brands and experiences
+        that endure — for clients who refuse to be ordinary.
+      </p>
+      <a class="btn-primary" href="#work">
+        View our work
+        <span class="arrow">→</span>
+      </a>
+    </div>
+    <div class="hero-right">
+      <div class="hero-visual">
+        <span class="hero-mark">B</span>
+      </div>
+      <div class="hero-badge">
+        <span>Creative<br />Agency<br />— NYC —</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span>Brand Identity</span><span class="dot">·</span>
+      <span>Art Direction</span><span class="dot">·</span>
+      <span>Digital Experience</span><span class="dot">·</span>
+      <span>Editorial Design</span><span class="dot">·</span>
+      <span>Motion</span><span class="dot">·</span>
+      <span>Strategy</span><span class="dot">·</span>
+      <span>Packaging</span><span class="dot">·</span>
+      <span>Campaign</span><span class="dot">·</span>
+      <!-- duplicate for seamless loop -->
+      <span>Brand Identity</span><span class="dot">·</span>
+      <span>Art Direction</span><span class="dot">·</span>
+      <span>Digital Experience</span><span class="dot">·</span>
+      <span>Editorial Design</span><span class="dot">·</span>
+      <span>Motion</span><span class="dot">·</span>
+      <span>Strategy</span><span class="dot">·</span>
+      <span>Packaging</span><span class="dot">·</span>
+      <span>Campaign</span><span class="dot">·</span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-left reveal">
+      <div class="section-label">About Studio B</div>
+      <h2 class="section-heading">
+        We make the <em>quiet</em><br />
+        things speak loudly.
+      </h2>
+      <p>
+        Studio B is a small, independent creative studio. We partner with
+        brands that value restraint, precision, and lasting beauty over
+        trend-chasing. Our work is deliberate — every element earns its place.
+      </p>
+      <p>
+        Founded by a collective of designers and strategists who believed that
+        great creative work doesn't shout — it resonates.
+      </p>
+      <div class="about-stats">
+        <div class="stat">
+          <div class="stat-num">87</div>
+          <div class="stat-label">Projects completed</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">34</div>
+          <div class="stat-label">Clients served</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">12</div>
+          <div class="stat-label">Awards won</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-right reveal">
+      <div class="about-image-frame">
+        <div class="about-image-inner">B</div>
+        <div class="about-caption">Est. 2018</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="services-header reveal">
+      <div>
+        <div class="section-label">What we do</div>
+        <h2 class="section-heading">
+          Capabilities built<br />
+          for <em>ambition</em>.
+        </h2>
+      </div>
+      <div>
+        <p class="services-intro">
+          We're not a full-service agency. We're a focused one. Our disciplines
+          work together because we believe identity, experience, and narrative
+          are inseparable — and that treating them as such is how you build
+          something that lasts.
+        </p>
+      </div>
+    </div>
+    <div class="services-grid reveal">
+      <div class="service-item">
+        <div class="service-num">01</div>
+        <div class="service-title">Brand Identity</div>
+        <p class="service-desc">
+          Logo, visual system, typography, colour — the complete architecture
+          of how a brand looks and feels in the world.
+        </p>
+      </div>
+      <div class="service-item">
+        <div class="service-num">02</div>
+        <div class="service-title">Art Direction</div>
+        <p class="service-desc">
+          Concept, composition, casting. We bring the creative vision for
+          campaigns, shoots, and content that converts.
+        </p>
+      </div>
+      <div class="service-item">
+        <div class="service-num">03</div>
+        <div class="service-title">Digital Experience</div>
+        <p class="service-desc">
+          Websites and digital products designed and built to be as beautiful
+          as they are effective.
+        </p>
+      </div>
+      <div class="service-item">
+        <div class="service-num">04</div>
+        <div class="service-title">Editorial & Print</div>
+        <p class="service-desc">
+          Lookbooks, catalogues, annual reports, and publications that hold
+          their weight long after the screen goes dark.
+        </p>
+      </div>
+      <div class="service-item">
+        <div class="service-num">05</div>
+        <div class="service-title">Strategy & Naming</div>
+        <p class="service-desc">
+          Positioning, brand narrative, and the naming of things — the
+          strategic foundation everything else is built on.
+        </p>
+      </div>
+      <div class="service-item">
+        <div class="service-num">06</div>
+        <div class="service-title">Packaging & Object</div>
+        <p class="service-desc">
+          Three-dimensional brand expression — packaging, spatial, and
+          environmental design for products worth touching.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work">
+    <div class="section-label reveal">Selected Work</div>
+    <h2 class="section-heading reveal">
+      Projects we're<br />
+      proud to <em>show</em>.
+    </h2>
+    <div class="work-grid reveal">
+      <div class="work-item large">
+        <div class="work-bg"><span class="work-bg-letter">M</span></div>
+        <div class="work-info">
+          <div class="work-category">Brand Identity · Packaging</div>
+          <div class="work-title">Maison Duvall — Fragrance House Rebrand</div>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-bg"><span class="work-bg-letter">A</span></div>
+        <div class="work-info">
+          <div class="work-category">Digital Experience</div>
+          <div class="work-title">Aether Studio — Website & Identity</div>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-bg"><span class="work-bg-letter">C</span></div>
+        <div class="work-info">
+          <div class="work-category">Art Direction · Editorial</div>
+          <div class="work-title">Corvin — Lookbook Campaign</div>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-bg"><span class="work-bg-letter">V</span></div>
+        <div class="work-info">
+          <div class="work-category">Brand Strategy · Naming</div>
+          <div class="work-title">Vérité — Launch Identity</div>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-bg"><span class="work-bg-letter">L</span></div>
+        <div class="work-info">
+          <div class="work-category">Packaging · Object</div>
+          <div class="work-title">Lune — Skincare Packaging System</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process">
+    <div class="process-header reveal">
+      <div>
+        <div class="section-label">How we work</div>
+        <h2 class="section-heading">
+          A process built<br />
+          on <em>trust</em>.
+        </h2>
+      </div>
+      <div style="padding-top: 5rem;">
+        <p style="font-size:0.95rem;line-height:1.9;color:var(--mid);">
+          We keep our client list deliberately small. Every project gets the
+          full attention of our team — not a junior assigned to fill hours.
+          Here's how we work together.
+        </p>
+      </div>
+    </div>
+    <div class="process-steps reveal">
+      <div class="process-step">
+        <div class="step-num">01.</div>
+        <div class="step-content">
+          <h3>Discovery & Alignment</h3>
+          <p>We start by listening. In-depth conversations about where you are, where you want to go, and what stands between you and there.</p>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">02.</div>
+        <div class="step-content">
+          <h3>Strategy & Direction</h3>
+          <p>Before anything is designed, we set the creative direction — the point of view that will make every decision that follows feel inevitable.</p>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">03.</div>
+        <div class="step-content">
+          <h3>Design & Craft</h3>
+          <p>This is where we earn our keep. Rigorous design, refined over rounds of review, until it's exactly right — not just good enough.</p>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">04.</div>
+        <div class="step-content">
+          <h3>Delivery & Guardianship</h3>
+          <p>We don't drop and disappear. We hand off comprehensively and stay available as your brand grows and evolves.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIAL -->
+  <section id="testimonial">
+    <div class="reveal">
+      <p class="testimonial-quote">
+        "Studio B didn't just redesign our brand — they helped us understand
+        what we actually stood for. The result speaks for itself."
+      </p>
+      <div class="testimonial-attr">
+        <div class="attr-line"></div>
+        <div class="attr-text">Claire Fontaine &nbsp;·&nbsp; Founder, Maison Duvall</div>
+        <div class="attr-line"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="reveal">
+      <div class="section-label">Get in touch</div>
+      <h2 class="section-heading">
+        Ready to build<br />
+        something <em>lasting</em>?
+      </h2>
+      <p class="contact-intro">
+        We take on a limited number of projects each year. If you're working on
+        something worth doing well, we'd love to hear about it.
+      </p>
+      <div class="contact-detail">
+        <div class="contact-row">
+          <span class="contact-row-label">New Business</span>
+          <span class="contact-row-value">hello@studiob.co</span>
+        </div>
+        <div class="contact-row">
+          <span class="contact-row-label">Location</span>
+          <span class="contact-row-value">New York, NY</span>
+        </div>
+        <div class="contact-row">
+          <span class="contact-row-label">Social</span>
+          <span class="contact-row-value">@studiob</span>
+        </div>
+      </div>
+    </div>
+    <div class="reveal">
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Your name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="you@example.com" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="company">Company</label>
+          <input type="text" id="company" placeholder="Your company or project" />
+        </div>
+        <div class="form-group">
+          <label for="service">Service of interest</label>
+          <select id="service">
+            <option value="">Select a discipline</option>
+            <option>Brand Identity</option>
+            <option>Art Direction</option>
+            <option>Digital Experience</option>
+            <option>Editorial & Print</option>
+            <option>Strategy & Naming</option>
+            <option>Packaging & Object</option>
+            <option>Other / Full Project</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">Brief</label>
+          <textarea id="message" placeholder="Tell us about your project…" required></textarea>
+        </div>
+        <div class="form-submit">
+          <button type="submit" class="btn-primary" style="border:none;cursor:pointer;">
+            Send enquiry <span class="arrow">→</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Studio B</div>
+    <div class="footer-center">
+      <div class="footer-tagline">Craft over noise.</div>
+    </div>
+    <div class="footer-right">
+      <div class="footer-links">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#work">Work</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+    <div class="footer-copy">
+      <p>&copy; 2026 Studio B. All rights reserved.</p>
+      <p>New York, NY &nbsp;<span class="gold">·</span>&nbsp; hello@studiob.co</p>
+    </div>
+  </footer>
+
+  <script>
+    // Nav shadow on scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Form
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('button[type=submit]');
+      btn.innerHTML = 'Message sent ✓';
+      btn.style.background = '#6B6860';
+      btn.disabled = true;
+      e.target.reset();
+    }
+  </script>
+
+</body>
+</html>
