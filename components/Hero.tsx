@@ -57,7 +57,7 @@ function Satellite({
       initial={{ opacity: 0, scale: 0.5 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className={className}
+      className={`reveal ${className}`}
     >
       <motion.div
         animate={{ y: [0, -14, 0], x: [0, 7, 0], rotate: [0, 3, 0] }}
@@ -104,7 +104,7 @@ export default function Hero() {
           initial={{ opacity: 0, scale: 0.86 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="w-[min(78vw,26rem)] sm:w-[min(56vh,32rem)]"
+          className="reveal w-[min(78vw,26rem)] sm:w-[min(56vh,32rem)]"
         >
           <Image
             src="/logo.png"
@@ -115,6 +115,16 @@ export default function Hero() {
             className="h-auto w-full"
           />
         </motion.div>
+
+        {/* one clear line, legible over either half of the hide */}
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.55, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="reveal relative mt-6 max-w-[24rem] rounded-full bg-paper/85 px-6 py-3 text-center text-[0.66rem] font-bold tracking-[0.18em] text-rust uppercase backdrop-blur-sm sm:text-xs"
+        >
+          Content that gets your brand seen
+        </motion.p>
 
         {/* desktop: satellites float around the logo */}
         {satellites.map((s, i) => (
