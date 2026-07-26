@@ -16,7 +16,7 @@ export default function Footer() {
         <Link href="/" className="transition-opacity hover:opacity-80">
           <Image
             src="/logo.png"
-            alt="Studio Borne — content creation & social media strategy"
+            alt="Studio Borne: content creation & social media strategy"
             width={1391}
             height={1400}
             className="h-16 w-auto"
@@ -36,7 +36,7 @@ export default function Footer() {
         </nav>
 
         <p className="text-[0.6rem] font-bold tracking-[0.2em] text-paper/40 uppercase">
-          &copy; {new Date().getFullYear()} Studio Borne &mdash; London
+          &copy; {new Date().getFullYear()} Studio Borne, London
         </p>
       </div>
     </footer>

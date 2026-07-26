@@ -4,7 +4,7 @@ import NextStop from "@/components/NextStop";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "The Feed — Studio Borne",
+  title: "The Feed | Studio Borne",
 };
 
 export default function FeedPage() {

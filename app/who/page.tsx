@@ -4,7 +4,7 @@ import NextStop from "@/components/NextStop";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Who we are — Studio Borne",
+  title: "Who we are | Studio Borne",
 };
 
 export default function WhoPage() {

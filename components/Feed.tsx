@@ -48,20 +48,24 @@ const shots: {
 
 export default function Feed() {
   return (
-    <section id="feed" className="relative overflow-hidden py-24 sm:py-32">
+    <section id="feed" className="relative overflow-hidden bg-paper py-20 sm:py-28">
       <BlobOutline
         shape="pebble"
-        className="absolute top-1/3 -left-56 h-[30rem] w-[30rem] text-rust/40"
+        className="pointer-events-none absolute top-1/3 -left-56 h-[30rem] w-[30rem] text-rust/30"
       />
 
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <Reveal className="mb-14 text-center sm:mb-20">
-          <p className="text-[0.62rem] font-bold tracking-[0.34em] text-taupe-deep uppercase">
+      <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
+        <Reveal className="mb-14 max-w-3xl sm:mb-20">
+          <p className="display-voice text-[0.62rem] tracking-[0.34em] text-sand sm:text-xs">
             Content in the wild
           </p>
-          <h2 className="display-voice mt-2 text-[clamp(2.6rem,8vw,5rem)] text-rust">
+          <h2 className="display-voice mt-4 text-[clamp(2.4rem,7vw,4.5rem)] text-rust">
             The feed
           </h2>
+          <p className="mt-5 max-w-[52ch] text-[1rem] leading-relaxed text-ink/75 sm:text-lg">
+            A look at the kind of content we make: on‑brand, versatile, and
+            built to earn attention across the platforms that matter.
+          </p>
         </Reveal>
 
         <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-8 lg:grid-cols-3">
@@ -81,7 +85,7 @@ export default function Feed() {
                   <BlobImage
                     shape={shot.shape}
                     src={shot.src}
-                    alt={`${shot.client} — ${shot.tag}`}
+                    alt={`${shot.client}: ${shot.tag}`}
                     className="h-auto w-full"
                   />
                 </motion.div>

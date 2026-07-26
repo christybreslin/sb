@@ -1,120 +1,114 @@
+"use client";
+
+import { motion } from "framer-motion";
 import Reveal from "./Reveal";
-import { BlobCard, BlobImage, BlobOutline } from "./Blob";
+import { BlobFill, BlobOutline } from "./Blob";
+
+/* The two founders map onto the two pillars: Ellie → content, Honor → strategy. */
+const founders = [
+  {
+    initial: "E",
+    name: "Ellie",
+    shape: "pebble" as const,
+    pillar: "Content creation",
+    body: "Photographer and videographer for top brands, crafting standout visual content that captures attention and tells a story.",
+  },
+  {
+    initial: "H",
+    name: "Honor",
+    shape: "tri" as const,
+    pillar: "Social media management",
+    body: "Launched her own business, then led social media and campaign marketing at an international brand. Building a strong media presence is her home turf.",
+  },
+];
 
 export default function Who() {
   return (
-    <section id="who" className="relative overflow-hidden py-24 sm:py-32">
-      {/* stray outline drifting off the edge, like the deck margins */}
-      <BlobOutline
-        shape="pebble"
-        className="absolute -top-40 -left-48 h-[30rem] w-[30rem] text-sand/70"
-      />
-
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-6">
-          <Reveal className="mx-auto w-[min(88vw,34rem)]">
-            <BlobCard
-              shape="pebble"
-              fillClassName="text-cream"
-              outline
-              outlineShape="bell"
-              outlineClassName="text-sand"
-              contentClassName="px-[13%]"
-            >
-              <h2 className="display-voice text-[clamp(2.4rem,7vw,4.2rem)] text-rust">
-                Who
-                <br />
-                we
-                <br />
-                are
-              </h2>
-            </BlobCard>
-          </Reveal>
-
-          <Reveal delay={0.15} className="mx-auto w-[min(88vw,36rem)]">
-            <BlobCard
-              shape="tri"
-              fillClassName="text-cream-soft"
-              outline
-              outlineShape="pebble"
-              outlineClassName="text-rust/70"
-              contentClassName="px-[14%]"
-            >
-              <p className="blob-voice text-[0.72rem] text-rust sm:text-[0.95rem]">
-                Studio Borne is a London&#8209;based social media strategy and
-                content creation agency. We specialise in fresh content that is
-                uniquely tailored to your brand and designed to show&#8209;off
-                your product or service in the way it truly deserves
-              </p>
-            </BlobCard>
-          </Reveal>
-        </div>
-
-        {/* founders */}
-        <div className="mt-8 grid items-start gap-8 sm:mt-16 lg:grid-cols-3">
-          <Reveal delay={0.05} className="mx-auto w-[min(80vw,24rem)] lg:mt-16">
-            <BlobCard
-              shape="bell"
-              fillClassName="text-taupe"
-              outline
-              outlineClassName="text-sand"
-              contentClassName="px-[15%]"
-            >
-              <span className="display-voice mb-2 text-lg text-cream">
-                Honor
-              </span>
-              <p className="blob-voice text-[0.6rem] text-paper sm:text-[0.7rem]">
-                Launched her own business, then led social media and campaign
-                marketing at an international brand &mdash; building strong
-                media presence is her home turf
-              </p>
-            </BlobCard>
-          </Reveal>
-
-          <Reveal delay={0.15} className="mx-auto hidden w-[min(80vw,22rem)] lg:block">
-            <div className="relative">
-              <BlobImage
-                shape="pebble"
-                src="/hide-brown.jpg"
-                alt="Brown and white cowhide texture"
-                className="h-auto w-full"
-              />
-              <BlobOutline
-                shape="tri"
-                className="pointer-events-none absolute inset-0 h-full w-full scale-[1.12] text-rust/70"
-              />
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.25} className="mx-auto w-[min(80vw,24rem)] lg:mt-24">
-            <BlobCard
-              shape="tri"
-              fillClassName="text-taupe"
-              outline
-              outlineShape="bell"
-              outlineClassName="text-sand"
-              contentClassName="px-[15%]"
-            >
-              <span className="display-voice mb-2 text-lg text-cream">
-                Ellie
-              </span>
-              <p className="blob-voice text-[0.6rem] text-paper sm:text-[0.7rem]">
-                Photographer and videographer for top brands, crafting standout
-                visual content that captures attention and tells a story
-              </p>
-            </BlobCard>
-          </Reveal>
-        </div>
-
-        <Reveal className="mx-auto mt-10 max-w-2xl text-center sm:mt-16">
-          <p className="blob-voice text-[0.72rem] text-ink/75 sm:text-sm">
-            Founded from a shared understanding: great content isn&rsquo;t
-            enough on its own&hellip; neither is a strong social strategy.{" "}
-            <span className="text-rust">
-              Success lies in the intersection of both
-            </span>
+    <section id="who" className="relative bg-paper">
+      <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+        {/* ── Intro ── */}
+        <Reveal className="max-w-3xl">
+          <p className="display-voice text-[0.62rem] tracking-[0.34em] text-sand sm:text-xs">
+            Who we are
+          </p>
+          <h2 className="display-voice mt-4 text-[clamp(2.4rem,7vw,4.5rem)] text-rust">
+            Content and strategy,
+            <br />
+            under one roof
+          </h2>
+          <p className="mt-5 max-w-[52ch] text-[1rem] leading-relaxed text-ink/75 sm:text-lg">
+            Studio Borne is a London‑based social media strategy and content
+            creation agency. We make fresh content, uniquely tailored to your
+            brand and designed to show off your product or service the way it
+            truly deserves.
           </p>
         </Reveal>
+
+        {/* ── The founders, one per pillar ── */}
+        <div className="mt-16 sm:mt-24">
+          <Reveal>
+            <p className="display-voice text-[0.6rem] tracking-[0.34em] text-sand sm:text-xs">
+              The founders
+            </p>
+            <h3 className="display-voice mt-2 text-[clamp(1.8rem,5vw,3rem)] text-rust">
+              Two people behind the two pillars
+            </h3>
+          </Reveal>
+
+          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
+            {founders.map((f, i) => (
+              <motion.div
+                key={f.name}
+                className="reveal"
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{
+                  duration: 0.7,
+                  delay: 0.1 + i * 0.12,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+              >
+                <div className="group h-full rounded-[2rem] bg-cream p-8 transition-transform duration-300 ease-out hover:-translate-y-1.5 sm:p-10">
+                  {/* blob avatar with initial */}
+                  <div className="relative w-16 transition-transform duration-300 ease-out group-hover:scale-110 sm:w-20">
+                    <BlobFill shape={f.shape} className="h-auto w-full text-rust" />
+                    <span className="display-voice absolute inset-0 flex items-center justify-center text-xl text-cream sm:text-2xl">
+                      {f.initial}
+                    </span>
+                  </div>
+
+                  <h4 className="display-voice mt-6 text-[clamp(1.6rem,4vw,2.2rem)] text-rust">
+                    {f.name}
+                  </h4>
+                  <p className="display-voice mt-1 text-[0.58rem] tracking-[0.28em] text-sand sm:text-[0.66rem]">
+                    {f.pillar}
+                  </p>
+                  <p className="mt-4 max-w-[42ch] text-[0.9rem] leading-relaxed text-ink/75 sm:text-[0.98rem]">
+                    {f.body}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Philosophy: ties back to the intersection ── */}
+        <div className="relative mt-20 sm:mt-28">
+          <BlobOutline
+            shape="pebble"
+            className="pointer-events-none absolute -top-16 left-1/2 h-72 w-72 -translate-x-1/2 text-sand/40"
+          />
+          <Reveal className="relative mx-auto max-w-3xl text-center">
+            <p className="display-voice text-[clamp(1.5rem,4.5vw,2.6rem)] leading-[1.1] text-ink">
+              Great content isn&rsquo;t enough on its own. Neither is a strong
+              social strategy.{" "}
+              <span className="text-rust">
+                Success lives in the intersection of both.
+              </span>
+            </p>
+          </Reveal>
+        </div>
       </div>
     </section>
   );

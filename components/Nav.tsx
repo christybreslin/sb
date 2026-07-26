@@ -29,7 +29,7 @@ export default function Nav() {
         <Link href="/" className="transition-opacity hover:opacity-80">
           <Image
             src="/logo.png"
-            alt="Studio Borne — content creation & social media strategy"
+            alt="Studio Borne: content creation & social media strategy"
             width={1391}
             height={1400}
             priority

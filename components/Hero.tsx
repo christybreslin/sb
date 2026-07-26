@@ -91,7 +91,7 @@ function Satellite({
 export default function Hero() {
   return (
     <section className="relative flex h-svh flex-col overflow-hidden bg-paper">
-      {/* the split hide, full strength — no veil */}
+      {/* the split hide, full strength, no veil */}
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: "url('/hide-split.jpg')" }}
@@ -108,7 +108,7 @@ export default function Hero() {
         >
           <Image
             src="/logo.png"
-            alt="Studio Borne — content creation & social media strategy"
+            alt="Studio Borne: content creation & social media strategy"
             width={1391}
             height={1400}
             priority

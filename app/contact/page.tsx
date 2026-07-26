@@ -3,7 +3,7 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Say hello — Studio Borne",
+  title: "Say hello | Studio Borne",
 };
 
 export default function ContactPage() {
