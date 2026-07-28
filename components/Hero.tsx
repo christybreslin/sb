@@ -1,9 +1,152 @@
 "use client";
 
+import { useSyncExternalStore } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { BlobFill, BlobOutline, type BlobShape } from "./Blob";
+import HeroBlobVideo from "./HeroBlobVideo";
+
+/*
+ * Background treatments for the hero. The homepage runs "original"; the rest are
+ * candidates being compared on /hero-options.
+ *
+ * Every raster variant carries a separate portrait and landscape asset. A single
+ * image cannot serve both frame shapes: background-size: cover lets the viewport
+ * decide what survives, which crops markings away on desktop and upscales a
+ * narrow slice on mobile. Art direction fixes that at the source.
+ */
+export type HeroVariant =
+  | "original"
+  | "soft"
+  | "warm"
+  | "marks"
+  | "silk"
+  | "blobvid";
+
+type ImgSet = { avif?: string; webp?: string; jpg: string };
+type VidSet = { webm?: string; mp4: string };
+
+type HeroMedia =
+  | { kind: "image"; portrait: ImgSet; landscape: ImgSet }
+  | {
+      kind: "video";
+      portrait: VidSet;
+      landscape: VidSet;
+      poster: { portrait: ImgSet; landscape: ImgSet };
+    }
+  | { kind: "blobvid" };
+
+const heroMedia: Record<HeroVariant, HeroMedia> = {
+  original: {
+    kind: "image",
+    portrait: { jpg: "/hide-split.jpg" },
+    landscape: { jpg: "/hide-split.jpg" },
+  },
+  soft: {
+    kind: "image",
+    portrait: { jpg: "/hide-soft.jpg" },
+    landscape: { jpg: "/hide-soft.jpg" },
+  },
+  /* The first genuinely art-directed pair: each orientation is its own shot,
+     composed for that frame, so neither is a crop of the other. */
+  warm: {
+    kind: "image",
+    portrait: { jpg: "/hide-warm-portrait.jpg" },
+    landscape: { jpg: "/hide-warm-landscape.jpg" },
+  },
+  /* Landscape only so far. The portrait shot came back as an all-over rug
+     pattern with no clear centre, so it is pending a redo. */
+  marks: {
+    kind: "image",
+    portrait: { jpg: "/hide-marks-landscape.jpg" },
+    landscape: { jpg: "/hide-marks-landscape.jpg" },
+  },
+  silk: {
+    kind: "video",
+    portrait: { mp4: "/silk-portrait.mp4" },
+    landscape: { mp4: "/silk-landscape.mp4" },
+    poster: {
+      portrait: { jpg: "/silk-portrait-poster.jpg" },
+      landscape: { jpg: "/silk-landscape-poster.jpg" },
+    },
+  },
+  blobvid: { kind: "blobvid" },
+};
+
+const WIDE = "(min-width: 768px)";
+
+function useMedia(query: string, serverValue: boolean) {
+  return useSyncExternalStore(
+    (onChange) => {
+      const mq = window.matchMedia(query);
+      mq.addEventListener("change", onChange);
+      return () => mq.removeEventListener("change", onChange);
+    },
+    () => window.matchMedia(query).matches,
+    () => serverValue,
+  );
+}
+
+/* Art-directed still: the landscape sources only apply from md up. */
+function Backdrop({ portrait, landscape }: { portrait: ImgSet; landscape: ImgSet }) {
+  return (
+    <picture>
+      {landscape.avif && <source media={WIDE} srcSet={landscape.avif} type="image/avif" />}
+      {landscape.webp && <source media={WIDE} srcSet={landscape.webp} type="image/webp" />}
+      <source media={WIDE} srcSet={landscape.jpg} type="image/jpeg" />
+      {portrait.avif && <source srcSet={portrait.avif} type="image/avif" />}
+      {portrait.webp && <source srcSet={portrait.webp} type="image/webp" />}
+      <img
+        src={portrait.jpg}
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full object-cover object-center"
+      />
+    </picture>
+  );
+}
+
+/*
+ * Only one orientation is ever downloaded. The `media` attribute on <source> is
+ * unreliable inside <video>, so the choice is made here and the element is keyed
+ * to force a remount when the viewport crosses the breakpoint.
+ */
+function VideoBackdrop({
+  portrait,
+  landscape,
+  poster,
+}: Extract<HeroMedia, { kind: "video" }>) {
+  const wide = useMedia(WIDE, true);
+  const still = useMedia("(prefers-reduced-motion: reduce)", false);
+
+  if (still) return <Backdrop portrait={poster.portrait} landscape={poster.landscape} />;
+
+  const set = wide ? landscape : portrait;
+  return (
+    <video
+      key={wide ? "landscape" : "portrait"}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      poster={wide ? poster.landscape.jpg : poster.portrait.jpg}
+      aria-hidden="true"
+      className="absolute inset-0 h-full w-full object-cover object-center"
+    >
+      {set.webm && <source src={set.webm} type="video/webm" />}
+      <source src={set.mp4} type="video/mp4" />
+    </video>
+  );
+}
+
+function HeroBackdrop({ variant }: { variant: HeroVariant }) {
+  const media = heroMedia[variant];
+  if (media.kind === "blobvid") return <HeroBlobVideo />;
+  if (media.kind === "video") return <VideoBackdrop {...media} />;
+  return <Backdrop portrait={media.portrait} landscape={media.landscape} />;
+}
 
 /* Little satellite blobs in the style of the logo: cream fill, sand ring, red type. */
 const satellites: {
@@ -88,15 +231,11 @@ function Satellite({
   );
 }
 
-export default function Hero() {
+export default function Hero({ variant = "original" }: { variant?: HeroVariant }) {
   return (
     <section className="relative flex h-svh flex-col overflow-hidden bg-paper">
       {/* the split hide, full strength, no veil */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/hide-split.jpg')" }}
-        aria-hidden="true"
-      />
+      <HeroBackdrop variant={variant} />
 
       <div className="relative flex flex-1 flex-col items-center justify-center px-5 py-14">
         {/* the logo IS the hero */}

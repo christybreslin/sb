@@ -42,3 +42,13 @@ next-env.d.ts
 
 # design reference (local only)
 /inspo/
+
+# installed agent skills (local tooling, not site content)
+/.agents/
+/skills-lock.json
+/.claude/skills/
+/.claude/settings.local.json
+
+# raw Higgsfield generations and local working notes
+/public/hf_*
+/higgsfield-brief.md

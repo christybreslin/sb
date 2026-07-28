@@ -12,12 +12,17 @@ const tabs = [
   { href: "/what", label: "What" },
   { href: "/why", label: "Why" },
   { href: "/feed", label: "The Feed" },
+  { href: "/hero-options", label: "Hero Options" },
 ];
 
 export default function Nav() {
   const pathname = usePathname();
   const home = pathname === "/";
   const [open, setOpen] = useState(false);
+
+  /* The preview route is embedded in an iframe on /hero-options; it renders the
+     hero alone, with no chrome. Declared after the hooks so their order is stable. */
+  if (pathname === "/hero-preview") return null;
 
   return (
     <header
