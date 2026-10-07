@@ -1,0 +1,474 @@
+@import "tailwindcss";
+@import "lenis/dist/lenis.css";
+@source not "../studio-b";
+
+@theme inline {
+  --color-cream: #fbf4e6;
+  --color-red: #cc0000;
+  --color-ink: #1c1c1a;
+  --color-brown: #7a5a40;
+
+  --font-sans: var(--font-instrument), "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+:root {
+  /* One measure for the page margin and the space between photos. */
+  --gutter: clamp(0.625rem, 1.4vw, 1.25rem);
+}
+
+html {
+  background: var(--color-cream);
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The blob pointer from the previous Studio Borne site: same shapes, sizes
+   and colours as studio-b/app/globals.css. They are served as images at 1x and
+   2x (made by scripts/make-cursors.mjs) because Chrome draws SVG cursors at
+   low resolution on Retina screens. */
+@media (pointer: fine) {
+  body {
+    cursor: url("/cursors/blob.png") 9 9, auto;
+    cursor: -webkit-image-set(url("/cursors/blob.png") 1x, url("/cursors/blob@2x.png") 2x) 9 9, auto;
+    cursor: image-set(url("/cursors/blob.png") 1x, url("/cursors/blob@2x.png") 2x) 9 9, auto;
+  }
+  a,
+  button,
+  [role="button"] {
+    cursor: url("/cursors/blob-link.png") 13 13, pointer;
+    cursor: -webkit-image-set(url("/cursors/blob-link.png") 1x, url("/cursors/blob-link@2x.png") 2x) 13 13, pointer;
+    cursor: image-set(url("/cursors/blob-link.png") 1x, url("/cursors/blob-link@2x.png") 2x) 13 13, pointer;
+  }
+}
+
+::selection {
+  background: var(--color-red);
+  color: var(--color-cream);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-red);
+  outline-offset: 4px;
+}
+
+/* A link whose underline is drawn from the left on hover and leaves to the
+   right. The current page keeps its underline. */
+.link-draw {
+  background: linear-gradient(currentColor, currentColor) no-repeat;
+  background-position: 100% calc(100% - var(--draw-gap, 0px));
+  background-size: 0 1px;
+  transition: background-size 0.45s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s ease;
+}
+.link-draw:hover,
+.link-draw[aria-current] {
+  background-position: 0 calc(100% - var(--draw-gap, 0px));
+  background-size: 100% 1px;
+}
+
+/* A link that is always underlined: on hover the line is swept away to the
+   right and drawn again from the left. */
+.link-sweep {
+  padding-bottom: 0.15em;
+  background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 100% 1px;
+  transition: color 0.3s ease;
+}
+.link-sweep:hover {
+  color: var(--color-red);
+  animation: link-sweep 0.75s cubic-bezier(0.65, 0, 0.35, 1);
+}
+@keyframes link-sweep {
+  0% { background-position: 100% 100%; background-size: 100% 1px; }
+  45% { background-position: 100% 100%; background-size: 0 1px; }
+  46% { background-position: 0 100%; background-size: 0 1px; }
+  100% { background-position: 0 100%; background-size: 100% 1px; }
+}
+
+/* Rolling text: on hover the words roll up out of sight and the same words
+   roll in from beneath. */
+.roll {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+.roll > span {
+  position: relative;
+  display: block;
+  transition: translate 0.55s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.roll > span::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+a:hover .roll > span {
+  translate: 0 -100%;
+}
+
+/* Leaning towards the pointer (see PointerEffects.tsx). */
+[data-magnet] {
+  translate: var(--mx, 0px) var(--my, 0px);
+  transition: translate 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* The small wordmark in the nav swells slightly under the pointer. */
+.wordmark-link img {
+  transition: scale 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.wordmark-link:hover img {
+  scale: 1.07;
+}
+
+/* Text that comes up into place when its page opens. */
+@keyframes page-in {
+  from { opacity: 0; translate: 0 1.25rem; }
+}
+.page-in {
+  animation: page-in 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.page-in + .page-in {
+  animation-delay: 0.15s;
+}
+
+/* The large email address on Say hello: a rule is drawn under it and it
+   turns from red to ink. */
+.email-link {
+  padding-bottom: 0.08em;
+  background: linear-gradient(currentColor, currentColor) no-repeat 100% 100% / 0 0.05em;
+  transition: background-size 0.8s cubic-bezier(0.22, 1, 0.36, 1), color 0.5s ease;
+}
+.email-link:hover {
+  color: var(--color-ink);
+  background-position: 0 100%;
+  background-size: 100% 0.05em;
+}
+
+/* Small wide-tracked capitals for the nav. */
+.label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* The large line that opens a page. */
+.heading {
+  font-size: clamp(2.25rem, 5.2vw, 4.5rem);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+/* ── The studio ── */
+/* Small running text in a narrow column, with a lot of cream around it. */
+.studio-text {
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+.studio-text p,
+.studio-text details {
+  margin-top: 1.1em;
+}
+.studio-text h2 {
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+/* A run of sub-headed passages: each heading sits tight on its paragraph. */
+.studio-text h3 {
+  margin-top: 1.9em;
+  font-weight: 600;
+}
+.studio-text h2 + h3 {
+  margin-top: 1.1em;
+}
+.studio-text h3 + p {
+  margin-top: 0.15em;
+}
+/* The larger line that opens and closes the page. */
+.studio-lead {
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+/* "What that includes +" opens the list of services. The plus turns to a
+   cross, and the services arrive one after another. */
+.studio-more summary {
+  display: inline-block;
+  list-style: none;
+  padding: 0.35rem 0;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+  transition: color 0.3s ease;
+}
+.studio-more summary:hover {
+  color: var(--color-red);
+}
+.studio-more summary::-webkit-details-marker {
+  display: none;
+}
+.studio-more summary::after {
+  content: "+";
+  display: inline-block;
+  margin-left: 0.6em;
+  transition: rotate 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.studio-more summary:hover::after {
+  rotate: 90deg;
+}
+.studio-more[open] summary::after {
+  rotate: 135deg;
+}
+.studio-more ul {
+  padding-top: 0.5em;
+}
+.studio-more li {
+  display: grid;
+  grid-template-columns: 1.3em 1fr;
+  margin-top: 0.3em;
+}
+.studio-more li::before {
+  content: "\2014";
+}
+@keyframes service-in {
+  from { opacity: 0; translate: 0 0.5rem; }
+}
+.studio-more[open] li {
+  animation: service-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.studio-more[open] li:nth-child(2) { animation-delay: 0.05s; }
+.studio-more[open] li:nth-child(3) { animation-delay: 0.1s; }
+.studio-more[open] li:nth-child(4) { animation-delay: 0.15s; }
+.studio-more[open] li:nth-child(5) { animation-delay: 0.2s; }
+.studio-more[open] li:nth-child(6) { animation-delay: 0.25s; }
+.studio-more[open] li:nth-child(7) { animation-delay: 0.3s; }
+
+/* The chapter list: the current chapter is italic and steps a little to the
+   right; the others lean that way on hover. */
+.studio-index-link {
+  transition: translate 0.5s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s ease;
+}
+.studio-index-link:hover {
+  color: var(--color-red);
+  translate: 0.25em 0;
+}
+.studio-index-link[aria-current] {
+  font-style: italic;
+  translate: 0.5em 0;
+}
+
+/* The clients' logos, all in the page's soft brown (those without a logo file are
+   set in the same small spaced capitals as the names on The Feed), passing slowly from right to left. Resting the pointer on them stops them. */
+.clients {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+.clients-track {
+  display: flex;
+  width: max-content;
+  animation: clients-pass 48s linear infinite;
+}
+.clients:hover .clients-track {
+  animation-play-state: paused;
+}
+.clients ul {
+  display: flex;
+  flex: none;
+  align-items: center;
+}
+/* Logo heights are given in em, so this one size scales the whole line. */
+.clients li {
+  flex: none;
+  padding: 0.5rem clamp(1.75rem, 3.4vw, 3.25rem);
+  font-size: clamp(0.72rem, 1.05vw, 0.95rem);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+/* Under the pointer one client stands forward and the rest step back. */
+.clients li {
+  transition: opacity 0.5s ease, translate 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@media (hover: hover) {
+  .clients-track:hover li {
+    opacity: 0.3;
+  }
+  .clients-track li:hover {
+    opacity: 1;
+    translate: 0 -0.3rem;
+  }
+}
+@keyframes clients-pass {
+  to { translate: -50% 0; }
+}
+
+/* ── Studio motion: how text and photos arrive (see StudioMotion.tsx) ──
+   Nothing is hidden until the script has marked the page ready. */
+[data-ready] [data-reveal="photo"] {
+  transition: opacity 1.2s ease, translate 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-ready] [data-reveal="photo"]:not([data-seen]) {
+  opacity: 0;
+}
+/* Each heading and paragraph in a passage, one after another. A passage that
+   is a single line of text moves as one. */
+[data-ready] [data-reveal="text"] > *,
+[data-ready] [data-reveal="text"]:not(:has(> *)) {
+  transition: opacity 0.9s ease, translate 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-ready] [data-reveal="text"]:not([data-seen]) > *,
+[data-ready] [data-reveal="text"]:not([data-seen]):not(:has(> *)) {
+  opacity: 0;
+  translate: 0 0.9rem;
+}
+[data-ready] [data-reveal="text"] > :nth-child(2) { transition-delay: 0.1s; }
+[data-ready] [data-reveal="text"] > :nth-child(3) { transition-delay: 0.2s; }
+[data-ready] [data-reveal="text"] > :nth-child(4) { transition-delay: 0.3s; }
+[data-ready] [data-reveal="text"] > :nth-child(5) { transition-delay: 0.4s; }
+[data-ready] [data-reveal="text"] > :nth-child(6) { transition-delay: 0.5s; }
+[data-ready] [data-reveal="text"] > :nth-child(n + 7) { transition-delay: 0.6s; }
+
+/* ── Home: blank cream, then the wordmark ── */
+@keyframes wordmark-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.wordmark-in {
+  animation: wordmark-in 1.4s ease 0.5s both;
+}
+
+/* The tagline arrives after the wordmark: its two halves slide in from either
+   side and meet at the ampersand, which appears last. */
+.tagline span {
+  display: inline-block;
+  animation: tagline-in 2.6s cubic-bezier(0.22, 1, 0.36, 1) 2s both;
+}
+.tagline [data-side="left"] {
+  --from: -3em;
+}
+.tagline [data-side="right"] {
+  --from: 3em;
+}
+.tagline [data-side="middle"] {
+  animation-duration: 1.2s;
+  animation-timing-function: ease;
+  animation-delay: 3.7s;
+}
+/* Once it has arrived, the line opens out a little under the pointer. */
+@media (hover: hover) {
+  .tagline {
+    transition: letter-spacing 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .tagline:hover {
+    letter-spacing: 0.1em;
+  }
+}
+@keyframes tagline-in {
+  from { opacity: 0; translate: var(--from, 0) 0; }
+}
+
+/* The nav waits above the top edge until the visitor moves. */
+.site-nav {
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.site-nav[data-shown="false"] {
+  transform: translateY(-100%);
+}
+
+/* ── The Feed ── */
+:root {
+  /* The Feed's photos sit closer together than the page gutter. */
+  --feed-gap: clamp(0.2rem, 0.4vw, 0.4rem);
+  /* How far a photo slides up to uncover the name beneath it. */
+  --reveal: 2.5rem;
+}
+@media (min-width: 768px) {
+  :root {
+    --reveal: 3.25rem;
+  }
+}
+
+/* Arriving on the Feed, the photos fade in one after another, row by row. */
+@keyframes tile-arrive {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.feed-column .tile {
+  animation: tile-arrive 1.1s ease both;
+  animation-delay: calc(var(--order) * 90ms + 120ms);
+}
+
+/* The frame hides whatever hangs out of its bottom edge (longer columns, until
+   they have scrolled level) but nothing above its top edge. */
+.feed-frame {
+  clip-path: inset(-200vh -100vw 0 -100vw);
+}
+
+.tile,
+.tile-photo {
+  transition: translate 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) {
+  /* Hovering a photo lifts the whole photo clear of the name beneath it... */
+  .tile:hover .tile-photo,
+  .tile:focus-visible .tile-photo,
+  /* ...which pushes every photo above it in the column up by the same amount... */
+  .feed-column .tile:has(~ .tile:hover),
+  .feed-column .tile:has(~ .tile:focus-visible) {
+    translate: 0 calc(var(--reveal) * -1);
+  }
+  /* ...and the photos in the other columns ease up a little too. */
+  .feed-frame:has(.tile:hover) .feed-column:not(:has(.tile:hover)) .tile {
+    translate: 0 calc(var(--reveal) * -0.35);
+  }
+  /* The brief pause before anything moves means a pointer merely passing over, or a
+     photo scrolling past underneath it, does nothing. Moving back is immediate. */
+  .feed-frame:has(.tile:hover) .tile,
+  .feed-frame:has(.tile:hover) .tile-photo,
+  .feed-frame:has(.tile:focus-visible) .tile,
+  .feed-frame:has(.tile:focus-visible) .tile-photo {
+    transition-delay: 0.09s;
+  }
+}
+
+/* Touch screens have no hover, so there each name simply sits under its photo. */
+@media (hover: none) {
+  .feed-column .tile {
+    padding-bottom: var(--reveal);
+  }
+}
+
+/* Columns are moved by script at different rates as the page scrolls. */
+.feed-column {
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wordmark-in { animation: none; }
+  .tagline span { animation: none; }
+  .link-draw, .studio-index-link, .studio-more summary::after { transition: none; }
+  .roll > span, .tagline, .email-link, .clients li { transition: none; }
+  .link-sweep:hover, .page-in { animation: none; }
+  a:hover .roll > span { translate: none; }
+  .studio-more[open] li { animation: none; }
+  .clients { -webkit-mask-image: none; mask-image: none; }
+  .clients-track { width: auto; animation: none; }
+  .clients ul { flex-wrap: wrap; }
+  .clients ul[aria-hidden] { display: none; }
+  .site-nav { transition: none; }
+  .site-nav[data-shown="false"] { transform: none; }
+  .tile, .tile-photo { transition: none; }
+  .feed-column .tile { animation: none; }
+}

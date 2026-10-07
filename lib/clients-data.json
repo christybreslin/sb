@@ -1,0 +1,27 @@
+{
+  "eldon-london": {
+    "src": "/clients/eldon-london.png",
+    "width": 368,
+    "height": 145
+  },
+  "lhotel-marrakech": {
+    "src": "/clients/lhotel-marrakech.png",
+    "width": 394,
+    "height": 121
+  },
+  "london-velvet": {
+    "src": "/clients/london-velvet.png",
+    "width": 1104,
+    "height": 86
+  },
+  "salsa-rose": {
+    "src": "/clients/salsa-rose.png",
+    "width": 2200,
+    "height": 240
+  },
+  "villa-mabrouka": {
+    "src": "/clients/villa-mabrouka.png",
+    "width": 373,
+    "height": 240
+  }
+}
