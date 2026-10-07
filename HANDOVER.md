@@ -1,7 +1,10 @@
 # Studio Borne v2: handover
 
-Status as of 7 October 2026. Nothing is committed, pushed or deployed. There is no git
-repository in this folder yet. The site runs locally and the production build passes.
+Status as of 7 October 2026. The site is committed and pushed to the `v2` branch of
+https://github.com/christybreslin/sb (private). **`main` on that repo is the old site and is
+what Vercel deploys to production; it has not been touched.** `v2` shares no history with
+`main`, so replacing the old site means either pointing Vercel's production branch at `v2`
+or force-pushing `v2` over `main`. That is the owner's call. The production build passes.
 
 ## Run it
 
@@ -112,12 +115,9 @@ everywhere" and found a first, quieter pass invisible. Keep them visible when ch
 4. Hover timing and scroll weight were still being tuned at the last exchange. The dials:
    `transition-delay` under `@media (hover: hover)` in `globals.css`; the `step < 5` and
    90ms values in `Feed.tsx`; `lerp` and `wheelMultiplier` on the Lenis instance.
-5. The left Feed column barely moves now that columns start level. Swapping a taller photo
-   into it would liven it up.
+5. The Feed spreads each client's photos apart automatically (`arrange` in `lib/gallery.ts`); on phones two same-client photos still meet side by side at a couple of scroll positions.
 6. `README.md` is still the create-next-app default.
-7. Git, GitHub and Vercel. The owner's global rule: commits carry no Claude co-author or
-   session trailers, and `git config user.email` must be checked first
-   (`Christy Breslin <christybreslin@icloud.com>`).
+7. Putting `v2` live (see the top of this file). The owner's global rule for commits: no Claude co-author or session trailers, and `git config user.email` must be `christybreslin@icloud.com`.
 
 ## Gotchas
 
