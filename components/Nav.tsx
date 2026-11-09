@@ -19,6 +19,7 @@ export default function Nav() {
   const pathname = usePathname();
   const home = pathname === "/";
   const [revealed, setRevealed] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
   const [open, setOpen] = useState(false);
 
   /* On the home page the nav drops in on the visitor's first movement. */
@@ -35,9 +36,19 @@ export default function Nav() {
     };
   }, [home, revealed]);
 
-  const shown = !home || revealed;
-  /* The home page already has the big wordmark; elsewhere a small one leads home. */
-  const docked = !home;
+  /* Scrolling down the home page carries on into The Studio; once the big
+     wordmark has gone by, the nav and its small wordmark are always there. */
+  useEffect(() => {
+    if (!home) return;
+    const check = () => setPastHero(window.scrollY > window.innerHeight * 0.6);
+    check();
+    window.addEventListener("scroll", check, { passive: true });
+    return () => window.removeEventListener("scroll", check);
+  }, [home]);
+
+  const shown = !home || revealed || pastHero;
+  /* The home screen already has the big wordmark; elsewhere a small one leads home. */
+  const docked = !home || pastHero;
 
   return (
     <header

@@ -3,7 +3,7 @@
 @source not "../studio-b";
 
 @theme inline {
-  --color-cream: #fbf4e6;
+  --color-cream: #faf6ee;
   --color-red: #cc0000;
   --color-ink: #1c1c1a;
   --color-brown: #7a5a40;
@@ -200,57 +200,94 @@ a:hover .roll > span {
   line-height: 1.25;
   letter-spacing: -0.01em;
 }
-/* "What that includes +" opens the list of services. The plus turns to a
-   cross, and the services arrive one after another. */
+/* What we do: each half of the work under a small spaced red heading, its
+   text set square. */
+.studio-work h3 {
+  margin-top: 0;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-red);
+}
+.studio-work h3 + p {
+  margin-top: 0.8em;
+}
+.studio-work p {
+  text-align: justify;
+  hyphens: auto;
+}
+/* "What our services include" is a band between two red rules; opening it
+   turns the chevron over and brings the services in one after another,
+   centred, each on its own ruled line. */
 .studio-more summary {
-  display: inline-block;
+  display: flex;
+  min-height: 3.5rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
   list-style: none;
-  padding: 0.35rem 0;
-  text-decoration: underline;
-  text-underline-offset: 0.3em;
-  transition: color 0.3s ease;
+  border-block: 1px solid var(--color-red);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-red);
+  transition: background-color 0.3s ease, letter-spacing 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .studio-more summary:hover {
-  color: var(--color-red);
+  background: rgb(204 0 0 / 0.06);
+  letter-spacing: 0.3em;
 }
 .studio-more summary::-webkit-details-marker {
   display: none;
 }
 .studio-more summary::after {
-  content: "+";
-  display: inline-block;
-  margin-left: 0.6em;
-  transition: rotate 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.studio-more summary:hover::after {
-  rotate: 90deg;
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  margin-top: -0.25rem;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  rotate: 45deg;
+  transition: rotate 0.3s ease, margin 0.3s ease;
 }
 .studio-more[open] summary::after {
-  rotate: 135deg;
+  rotate: 225deg;
+  margin-top: 0.25rem;
+}
+.studio-more-intro {
+  margin-inline: auto;
+  max-width: 32.5rem;
+  padding-top: 0.5rem;
+  font-style: italic;
+  text-align: justify;
+  text-align-last: center;
 }
 .studio-more ul {
-  padding-top: 0.5em;
+  padding-top: 1.25rem;
+  text-align: center;
 }
 .studio-more li {
-  display: grid;
-  grid-template-columns: 1.3em 1fr;
-  margin-top: 0.3em;
+  padding: 0.85rem 0;
+  border-top: 1px solid rgb(122 90 64 / 0.2);
 }
-.studio-more li::before {
-  content: "\2014";
+.studio-more li:last-child {
+  border-bottom: 1px solid rgb(122 90 64 / 0.2);
 }
 @keyframes service-in {
   from { opacity: 0; translate: 0 0.5rem; }
 }
+.studio-more[open] .studio-more-intro,
 .studio-more[open] li {
   animation: service-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-.studio-more[open] li:nth-child(2) { animation-delay: 0.05s; }
-.studio-more[open] li:nth-child(3) { animation-delay: 0.1s; }
-.studio-more[open] li:nth-child(4) { animation-delay: 0.15s; }
-.studio-more[open] li:nth-child(5) { animation-delay: 0.2s; }
-.studio-more[open] li:nth-child(6) { animation-delay: 0.25s; }
-.studio-more[open] li:nth-child(7) { animation-delay: 0.3s; }
+.studio-more[open] li:nth-child(1) { animation-delay: 0.05s; }
+.studio-more[open] li:nth-child(2) { animation-delay: 0.1s; }
+.studio-more[open] li:nth-child(3) { animation-delay: 0.15s; }
+.studio-more[open] li:nth-child(4) { animation-delay: 0.2s; }
+.studio-more[open] li:nth-child(5) { animation-delay: 0.25s; }
+.studio-more[open] li:nth-child(6) { animation-delay: 0.3s; }
+.studio-more[open] li:nth-child(7) { animation-delay: 0.35s; }
 
 /* The chapter list: the current chapter is italic and steps a little to the
    right; the others lean that way on hover. */
@@ -266,20 +303,36 @@ a:hover .roll > span {
   translate: 0.5em 0;
 }
 
-/* The clients' logos, all in the page's soft brown (those without a logo file are
-   set in the same small spaced capitals as the names on The Feed), passing slowly from right to left. Resting the pointer on them stops them. */
+/* The clients' logos, each in its own colours (those without a logo file are
+   set in the same small spaced capitals as the names on The Feed), in one line
+   that drifts from right to left and can be scrolled or dragged sideways (see
+   Clients.tsx). */
 .clients {
-  overflow: hidden;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
   -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
   mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+.clients::-webkit-scrollbar {
+  display: none;
+}
+@media (pointer: fine) {
+  .clients,
+  .clients li {
+    cursor: grab;
+  }
+  .clients[data-dragging],
+  .clients[data-dragging] li {
+    cursor: grabbing;
+  }
+}
+.clients[data-dragging] {
+  user-select: none;
 }
 .clients-track {
   display: flex;
   width: max-content;
-  animation: clients-pass 48s linear infinite;
-}
-.clients:hover .clients-track {
-  animation-play-state: paused;
 }
 .clients ul {
   display: flex;
@@ -308,9 +361,10 @@ a:hover .roll > span {
     opacity: 1;
     translate: 0 -0.3rem;
   }
-}
-@keyframes clients-pass {
-  to { translate: -50% 0; }
+  .clients[data-dragging] li {
+    opacity: 1;
+    translate: none;
+  }
 }
 
 /* ── Studio motion: how text and photos arrive (see StudioMotion.tsx) ──
@@ -390,13 +444,6 @@ a:hover .roll > span {
 :root {
   /* The Feed's photos sit closer together than the page gutter. */
   --feed-gap: clamp(0.2rem, 0.4vw, 0.4rem);
-  /* How far a photo slides up to uncover the name beneath it. */
-  --reveal: 2.5rem;
-}
-@media (min-width: 768px) {
-  :root {
-    --reveal: 3.25rem;
-  }
 }
 
 /* Arriving on the Feed, the photos fade in one after another, row by row. */
@@ -410,43 +457,54 @@ a:hover .roll > span {
 }
 
 /* The frame hides whatever hangs out of its bottom edge (longer columns, until
-   they have scrolled level) but nothing above its top edge. */
+   they have scrolled level). */
 .feed-frame {
   clip-path: inset(-200vh -100vw 0 -100vw);
 }
 
-.tile,
-.tile-photo {
-  transition: translate 0.65s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
+/* The client's name. With a pointer it comes up in large letters over the
+   bottom of the photo, cream on darker photos and ink on lighter ones... */
 @media (hover: hover) {
-  /* Hovering a photo lifts the whole photo clear of the name beneath it... */
-  .tile:hover .tile-photo,
-  .tile:focus-visible .tile-photo,
-  /* ...which pushes every photo above it in the column up by the same amount... */
-  .feed-column .tile:has(~ .tile:hover),
-  .feed-column .tile:has(~ .tile:focus-visible) {
-    translate: 0 calc(var(--reveal) * -1);
+  .tile-name {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    padding: 0 clamp(0.75rem, 1.4vw, 1.25rem) clamp(0.6rem, 1.2vw, 1.1rem);
+    font-size: clamp(2rem, 4.6vw, 4.75rem);
+    font-weight: 500;
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+    text-wrap: balance;
+    color: var(--color-cream);
+    opacity: 0;
+    translate: 0 0.35em;
+    transition: opacity 0.35s ease, translate 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
   }
-  /* ...and the photos in the other columns ease up a little too. */
-  .feed-frame:has(.tile:hover) .feed-column:not(:has(.tile:hover)) .tile {
-    translate: 0 calc(var(--reveal) * -0.35);
+  .tile[data-tone="dark"] .tile-name {
+    color: var(--color-ink);
   }
-  /* The brief pause before anything moves means a pointer merely passing over, or a
-     photo scrolling past underneath it, does nothing. Moving back is immediate. */
-  .feed-frame:has(.tile:hover) .tile,
-  .feed-frame:has(.tile:hover) .tile-photo,
-  .feed-frame:has(.tile:focus-visible) .tile,
-  .feed-frame:has(.tile:focus-visible) .tile-photo {
+  /* The brief pause before it appears means a pointer merely passing over, or
+     a photo scrolling past underneath it, does nothing. */
+  .tile:hover .tile-name,
+  .tile:focus-visible .tile-name {
+    opacity: 1;
+    translate: 0 0;
     transition-delay: 0.09s;
   }
 }
-
-/* Touch screens have no hover, so there each name simply sits under its photo. */
+/* ...and on touch screens, which have no hover, it sits small beneath. */
 @media (hover: none) {
-  .feed-column .tile {
-    padding-bottom: var(--reveal);
+  .tile-name {
+    display: flex;
+    height: 2.5rem;
+    align-items: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-brown);
   }
 }
 
@@ -458,17 +516,13 @@ a:hover .roll > span {
 @media (prefers-reduced-motion: reduce) {
   .wordmark-in { animation: none; }
   .tagline span { animation: none; }
-  .link-draw, .studio-index-link, .studio-more summary::after { transition: none; }
+  .link-draw, .studio-index-link, .studio-more summary, .studio-more summary::after { transition: none; }
   .roll > span, .tagline, .email-link, .clients li { transition: none; }
   .link-sweep:hover, .page-in { animation: none; }
   a:hover .roll > span { translate: none; }
-  .studio-more[open] li { animation: none; }
-  .clients { -webkit-mask-image: none; mask-image: none; }
-  .clients-track { width: auto; animation: none; }
-  .clients ul { flex-wrap: wrap; }
-  .clients ul[aria-hidden] { display: none; }
+  .studio-more[open] li, .studio-more[open] .studio-more-intro { animation: none; }
   .site-nav { transition: none; }
   .site-nav[data-shown="false"] { transform: none; }
-  .tile, .tile-photo { transition: none; }
+  .tile-name { transition: none; }
   .feed-column .tile { animation: none; }
 }

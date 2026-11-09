@@ -40,6 +40,10 @@ const ALTS: Partial<Record<Id, string>> = {
   dsc06171: "Palm trees and terracotta rooftops at sunset",
   dsc07530: "Courtyard and palm trees lit up at night",
   dsc07545: "Lantern-lit garden path under orange trees at night",
+  "eldon-headscarf-bw":
+    "Black and white portrait of a woman in a striped headscarf by a chain railing at the sea",
+  eldondsc07360:
+    "Black and white portrait of a woman with a leather shoulder bag looking back over her shoulder",
 };
 
 const clientOf = (id: Id) => CLIENTS.find(([prefix]) => id.startsWith(prefix))?.[1] ?? "";
@@ -71,6 +75,21 @@ const scatter = (id: string) => {
   return h;
 };
 
+/* The photos that open The Feed, strongest first. They fill the top of the
+   page in this order, left to right; everything else follows, mixed. Change
+   this list to change what is seen first. */
+export const featured: Id[] = [
+  "lhm-1",
+  "eldon-dsc06936",
+  "vm-32839-2",
+  "queen-dsc00489-1",
+  "lhm-39157",
+  "eldon-whitstable3167-2",
+  "vm15567",
+  "lv-dsc03850",
+  "lhm3",
+];
+
 /* Everything on The Feed. */
 export const feed: Id[] = (Object.keys(data) as Id[])
   .filter((id) => data[id].set === "feed")
@@ -86,15 +105,18 @@ export const feed: Id[] = (Object.keys(data) as Id[])
    columns slide further as the page scrolls, "beside" is judged by how far
    down its own column each photo is, which is where they meet on screen. Among the photos
    that qualify, the client with the most still to place goes first, so nobody
-   is left to pile up at the bottom. */
-export function arrange(ids: Id[], lengths: number[]): Id[][] {
+   is left to pile up at the bottom.
+
+   The `first` photos are dealt before any of that, exactly in the order given. */
+export function arrange(ids: Id[], lengths: number[], first: Id[] = []): Id[][] {
   type Placed = { client: string; top: number; bottom: number };
   const columns = lengths.map(() => [] as Id[]);
   const placed = lengths.map(() => [] as Placed[]);
   const filled = lengths.map(() => 0);
-  const waiting = [...ids];
+  const pinned = first.filter((id) => ids.includes(id));
+  const waiting = ids.filter((id) => !pinned.includes(id));
 
-  while (waiting.length) {
+  while (pinned.length || waiting.length) {
     let col = 0;
     lengths.forEach((_, i) => {
       if (filled[i] / lengths[i] < filled[col] / lengths[col]) col = i;
@@ -128,7 +150,7 @@ export function arrange(ids: Id[], lengths: number[]): Id[][] {
       }
     });
 
-    const [id] = waiting.splice(pick, 1);
+    const id = pinned.length ? pinned.shift()! : waiting.splice(pick, 1)[0];
     const height = data[id].height / data[id].width;
     columns[col].push(id);
     placed[col].push({
