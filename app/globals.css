@@ -307,6 +307,18 @@ a.ig:hover {
 .feed-column {
   will-change: transform;
 }
+/* Where supported, each column slides by its own --shift (set by Feed.tsx)
+   over the length of the page's scroll, driven by the scroll itself. */
+@keyframes feed-slide {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(0, calc(-1 * var(--shift, 0px)), 0); }
+}
+@supports (animation-timeline: scroll()) {
+  .feed-column[data-linked] {
+    animation: feed-slide linear both;
+    animation-timeline: scroll(root block);
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .link-draw, .site-tabs a, .strip-copy > * { transition: none; }

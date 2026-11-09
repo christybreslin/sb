@@ -88,8 +88,16 @@ function Columns({ layout, sizes, className }: { layout: Layout; sizes: string; 
     let shift = cols.map(() => 0);
     let queued = 0;
 
+    /* Where the browser can tie an animation to the page's scroll (see
+       .feed-column[data-linked] in globals.css), it moves the columns itself,
+       in step with the scroll. Otherwise the script follows the scroll, which
+       lags it by a frame and jitters on phones. */
+    const linked = CSS.supports("animation-timeline: scroll()");
+    if (linked) cols.forEach((c) => (c.dataset.linked = ""));
+
     const move = () => {
       queued = 0;
+      if (linked) return;
       const range = document.documentElement.scrollHeight - window.innerHeight;
       const progress = range > 0 ? Math.min(1, Math.max(0, window.scrollY / range)) : 0;
       cols.forEach((col, i) => {
@@ -108,7 +116,17 @@ function Columns({ layout, sizes, className }: { layout: Layout; sizes: string; 
       const frameHeight = (longest - (FASTEST - 1) * rest) / FASTEST;
       el.style.height = `${Math.min(longest, Math.max(Math.min(...heights), frameHeight))}px`;
       shift = heights.map((h) => h - el.offsetHeight);
+      cols.forEach((c, i) => c.style.setProperty("--shift", `${shift[i]}px`));
       move();
+    };
+
+    /* A phone's toolbar sliding away changes the window's height mid-scroll;
+       only a change of width calls for measuring again. */
+    let width = window.innerWidth;
+    const onResize = () => {
+      if (window.innerWidth === width) return;
+      width = window.innerWidth;
+      measure();
     };
 
     /* While the page is moving at any real speed, photos ignore the pointer,
@@ -131,18 +149,22 @@ function Columns({ layout, sizes, className }: { layout: Layout; sizes: string; 
     const sizeWatcher = new ResizeObserver(measure);
     cols.forEach((c) => sizeWatcher.observe(c));
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", measure);
+    window.addEventListener("resize", onResize);
     measure();
 
     return () => {
       sizeWatcher.disconnect();
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", measure);
+      window.removeEventListener("resize", onResize);
       cancelAnimationFrame(queued);
       clearTimeout(settle);
       el.style.pointerEvents = "";
       el.style.height = "";
-      cols.forEach((c) => (c.style.transform = ""));
+      cols.forEach((c) => {
+        c.style.transform = "";
+        c.style.removeProperty("--shift");
+        delete c.dataset.linked;
+      });
     };
   }, []);
 
