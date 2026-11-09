@@ -337,7 +337,8 @@
 .home .clients .band-h {
   padding-bottom: 36px;
 }
-.home .strip-copy {
+.home .strip-copy,
+.home .marquee-copy {
   gap: 20px;
   padding-right: 20px;
 }
@@ -363,10 +364,6 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  transition: translate 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.home .clients .lg:hover {
-  translate: 0 -4px;
 }
 .home .clients .lg img {
   width: auto;
@@ -620,8 +617,7 @@
     left: var(--x0);
     top: var(--y0);
   }
-  .home .reel figure img,
-  .home .clients .lg {
+  .home .reel figure img {
     transition: none;
   }
 }

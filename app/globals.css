@@ -176,6 +176,34 @@ a.ig:hover {
   opacity: 0.7;
 }
 
+/* A line that moves steadily on its own and never stops (see Marquee.tsx).
+   It travels one copy's width, then starts again from where it began, which
+   looks the same, so the loop never shows. */
+.marquee {
+  overflow: hidden;
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-time, 40s) linear infinite;
+}
+.marquee-copy {
+  display: flex;
+  flex: none;
+  align-items: center;
+}
+@keyframes marquee {
+  to { transform: translate3d(-50%, 0, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    overflow-x: auto;
+  }
+  .marquee-track {
+    animation: none;
+  }
+}
+
 /* A line that glides on its own and can be scrolled or dragged sideways (see
    Strip.tsx). Each page sets the spacing of its own copies. */
 .strip {

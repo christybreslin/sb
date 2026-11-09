@@ -5,6 +5,7 @@ import "./home.css";
 import Logo, { BALL, BALL_BOX, INK, LOGO_BOX } from "@/components/Logo";
 import { NavLinks } from "@/components/Nav";
 import Instagram from "@/components/Instagram";
+import Marquee from "@/components/Marquee";
 import Strip from "@/components/Strip";
 import StudioMotion from "@/components/StudioMotion";
 import { clients, EMAIL, reel } from "@/lib/studio";
@@ -221,13 +222,13 @@ export default function Home() {
             <p className="cap">Clients</p>
             <Dots on={0} count={4} />
           </div>
-          <Strip speed={60} className="cl-strip">
+          <Marquee seconds={40} className="cl-strip">
             {clients.map((c) => (
               <div key={c.name} className="lg">
                 <Image src={c.src} alt={c.name} width={c.width} height={c.height} sizes="200px" draggable={false} />
               </div>
             ))}
-          </Strip>
+          </Marquee>
         </section>
 
         <section className="why3" id="why">

@@ -184,12 +184,19 @@ function Columns({ layout, sizes, className }: { layout: Layout; sizes: string; 
 /* Three columns on a wide screen, two on a phone. Only the layout that fits
    the screen is shown (and loaded). */
 export default function Feed() {
-  /* A heavy, slow scroll: each turn of the wheel moves the page less, and it
-     eases on afterwards instead of tracking the wheel exactly. Mouse and
-     trackpad only; touch screens keep their own native scrolling. */
+  /* A heavy, slow scroll: each turn of the wheel, or swipe on a phone, moves
+     the page less than usual, and it eases on afterwards instead of tracking
+     the finger or wheel exactly. */
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const lenis = new Lenis({ autoRaf: true, lerp: 0.04, wheelMultiplier: 0.6 });
+    const lenis = new Lenis({
+      autoRaf: true,
+      lerp: 0.03,
+      wheelMultiplier: 0.5,
+      syncTouch: true,
+      syncTouchLerp: 0.05,
+      touchMultiplier: 0.7,
+    });
     return () => lenis.destroy();
   }, []);
 
