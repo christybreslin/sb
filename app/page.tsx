@@ -4,6 +4,7 @@ import Link from "next/link";
 import "./home.css";
 import Logo, { BALL, BALL_BOX, INK, LOGO_BOX } from "@/components/Logo";
 import { NavLinks } from "@/components/Nav";
+import Instagram from "@/components/Instagram";
 import Strip from "@/components/Strip";
 import StudioMotion from "@/components/StudioMotion";
 import { clients, EMAIL, reel } from "@/lib/studio";
@@ -260,6 +261,8 @@ export default function Home() {
             <Link href="/feed">The feed</Link>
             <span aria-hidden="true">·</span>
             <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+            <span aria-hidden="true">·</span>
+            <Instagram />
           </p>
         </footer>
       </div>

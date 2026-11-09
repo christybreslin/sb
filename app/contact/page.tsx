@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import "./hello.css";
+import Instagram from "@/components/Instagram";
 import { EMAIL } from "@/lib/studio";
 
 export const metadata: Metadata = { title: "Say hello" };
@@ -41,6 +42,7 @@ export default function Contact() {
       <footer>
         <div>
           <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+          <Instagram />
         </div>
       </footer>
     </div>

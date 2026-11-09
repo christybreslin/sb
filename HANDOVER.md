@@ -114,7 +114,7 @@ steps out, and the header logo swells.
 
 ## Open items
 
-1. Logo files for Queen Rose and Harriet and Hera (left out of Clients until supplied); the Instagram link (hidden until supplied); whether vertical mouse-wheel over a strip should scroll it sideways (currently only trackpad sideways scroll and drag, so the page never gets stuck).
+1. Logo files for Queen Rose and Harriet and Hera (left out of Clients until supplied); whether vertical mouse-wheel over a strip should scroll it sideways (currently only trackpad sideways scroll and drag, so the page never gets stuck).
 2. Proper descriptions (alt text) for the Feed photos, which are generic for now; confirm VB is Villa Mabrouka; 
 3. Email is now `hello@studioborne.co.uk` everywhere (confirmed in the brief).
 4. Hover timing and scroll weight were still being tuned at the last exchange. The dials:

@@ -567,6 +567,9 @@
 .home .sg-links span {
   color: #b9afa6;
 }
+.home .sg-links .ig {
+  color: var(--color-brick);
+}
 
 @media (max-width: 900px) {
   .home .who,

@@ -38,3 +38,6 @@ const named: [string, keyof typeof logos][] = [
 export const clients = named.map(([name, logo]) => ({ name, ...logos[logo] }));
 
 export const EMAIL = "hello@studioborne.co.uk";
+
+/* The Instagram profile. If emptied, the icon shows greyed out and leads nowhere. */
+export const INSTAGRAM = "https://www.instagram.com/studio.borne/";
