@@ -32,12 +32,19 @@ Checks: `npx eslint .`, `npx tsc --noEmit`, `npx next build`. All pass.
 | `/feed` | The main piece of work. See below. |
 | `/studio` | Redirects to `/` (`next.config.ts`). |
 | `/contact` | The "Say hello" board (`app/contact/page.tsx`, `app/contact/hello.css`). |
+| any other address | `app/not-found.tsx`, in the Say hello page's manner. |
+
+Pages fade in as the visitor moves between them (`app/template.tsx`). Link previews use
+`public/share.jpg`, made by `scripts/make-share-image.py`; titles and descriptions are in each
+page's `metadata`.
 
 Shared: brand tokens and fonts (Figtree, Noto Serif Display) in `app/layout.tsx` and
 `app/globals.css`; the thin page frame (`.page-frame`); the header with logo and tabs on
-every page but home (`components/Nav.tsx`); the sb logo (`components/Logo.tsx`); the two
-gliding strips (`components/Strip.tsx`: drift, pause on hover, sideways trackpad scroll,
-drag, swipe). Clients shows the five logos we have, in their own colours.
+every page but home (`components/Nav.tsx`); the sb logo (`components/Logo.tsx`); the From
+the studio strip (`components/Strip.tsx`: drift, pause on hover, sideways trackpad scroll,
+drag, swipe); the Clients line (`components/Marquee.tsx`: slow and steady, never pauses, at
+the owner's request). All seven client logos are in their own colours, except Queen, which
+only exists in white and is set in charcoal.
 
 ### The Feed (`components/Feed.tsx`, styles in `app/globals.css`)
 
@@ -114,14 +121,13 @@ steps out, and the header logo swells.
 
 ## Open items
 
-1. Logo files for Queen Rose and Harriet and Hera (left out of Clients until supplied); whether vertical mouse-wheel over a strip should scroll it sideways (currently only trackpad sideways scroll and drag, so the page never gets stuck).
-2. Proper descriptions (alt text) for the Feed photos, which are generic for now; confirm VB is Villa Mabrouka; 
+1. whether vertical mouse-wheel over a strip should scroll it sideways (currently only trackpad sideways scroll and drag, so the page never gets stuck).
+2. Confirm VB is Villa Mabrouka, and the Feed's client names ("Eldon Cashmere", "Queen Cuvée Rock n Roll") against the Clients line ("Eldon London", "Queen Rose"); 
 3. Email is now `hello@studioborne.co.uk` everywhere (confirmed in the brief).
 4. Hover timing and scroll weight were still being tuned at the last exchange. The dials:
    `transition-delay` under `@media (hover: hover)` in `globals.css`; the `step < 5` and
    90ms values in `Feed.tsx`; `lerp` and `wheelMultiplier` on the Lenis instance.
 5. The Feed spreads each client's photos apart automatically (`arrange` in `lib/gallery.ts`); on phones two same-client photos still meet side by side at a couple of scroll positions.
-6. `README.md` is still the create-next-app default.
 7. The owner's global rule for commits: no Claude co-author or session trailers, and `git config user.email` must be `christybreslin@icloud.com`.
 
 ## Gotchas

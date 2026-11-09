@@ -4,6 +4,7 @@ import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import PointerEffects from "@/components/PointerEffects";
+import { SHARE } from "@/lib/studio";
 
 const figtree = Figtree({
   subsets: ["latin"],
@@ -16,13 +17,28 @@ const notoSerif = Noto_Serif_Display({
   variable: "--font-noto-serif",
 });
 
+const description =
+  "Studio Borne is a London-based social media strategy and content creation agency working across the luxury and lifestyle sectors.";
+
 export const metadata: Metadata = {
+  /* Vercel supplies the production domain, so shared links point at whichever
+     domain the site is live on. */
+  metadataBase: new URL(
+    process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : "http://localhost:3001",
+  ),
   title: {
     default: "Studio Borne | Content creation and social media strategy, London",
     template: "%s | Studio Borne",
   },
-  description:
-    "Studio Borne is a London-based social media strategy and content creation agency.",
+  description,
+  openGraph: {
+    ...SHARE,
+    title: "Studio Borne | Content creation and social media strategy, London",
+    description,
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({

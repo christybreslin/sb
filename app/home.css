@@ -372,6 +372,10 @@
   max-height: 70px;
   object-fit: contain;
 }
+/* Set by eye, so a solid, heavy mark carries the same weight as the rest. */
+.home .clients .lg img[data-logo="harriet-and-hera"] {
+  max-height: 44px;
+}
 
 /* ── What we do: text left, photo right ── */
 .home .what3 {

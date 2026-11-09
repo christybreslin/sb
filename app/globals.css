@@ -93,6 +93,66 @@ body {
   animation-delay: 0.15s;
 }
 
+/* Moving between pages, the new page fades in beneath the header. */
+@keyframes page-arrive {
+  from { opacity: 0; }
+}
+.page-arrive {
+  animation: page-arrive 0.7s ease backwards;
+}
+
+/* The page for addresses that don't exist. */
+.lost {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 22px;
+  min-height: calc(100svh - 124px);
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 48px clamp(24px, 6vw, 80px) 120px;
+}
+.lost-cap,
+.lost-links {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.lost h1 {
+  margin: 0;
+  max-width: 14em;
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 4.4vw, 60px);
+  font-weight: 400;
+  line-height: 1.05;
+}
+.lost-dot {
+  display: inline-block;
+  width: 0.15em;
+  height: 0.15em;
+  margin-left: 0.04em;
+  border-radius: 50%;
+  background: var(--color-brick);
+}
+.lost-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+}
+.lost-links a {
+  color: var(--color-brick);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s;
+}
+.lost-links a:hover {
+  border-color: currentColor;
+}
+.lost-links span {
+  color: #b9afa6;
+}
+
 /* The thin charcoal line drawn just inside the edge of every page. */
 .page-frame {
   position: relative;
@@ -350,7 +410,7 @@ a.ig:hover {
 
 @media (prefers-reduced-motion: reduce) {
   .link-draw, .site-tabs a, .strip-copy > * { transition: none; }
-  .page-in { animation: none; }
+  .page-in, .page-arrive { animation: none; }
   .tile-name { transition: none; }
   .feed-column .tile { animation: none; }
 }

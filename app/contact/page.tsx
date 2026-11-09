@@ -2,9 +2,15 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import "./hello.css";
 import Instagram from "@/components/Instagram";
-import { EMAIL } from "@/lib/studio";
+import { EMAIL, SHARE } from "@/lib/studio";
 
-export const metadata: Metadata = { title: "Say hello" };
+const description = "We’d love to hear from you. Drop us an email and let’s chat about how we could work together.";
+
+export const metadata: Metadata = {
+  title: "Say hello",
+  description,
+  openGraph: { ...SHARE, title: "Say hello | Studio Borne", description },
+};
 
 /* Built from the "Say hello" board in "Studio Borne – website.html". */
 export default function Contact() {

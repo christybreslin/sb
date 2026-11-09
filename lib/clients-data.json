@@ -4,6 +4,11 @@
     "width": 367,
     "height": 145
   },
+  "harriet-and-hera": {
+    "src": "/clients/harriet-and-hera.png",
+    "width": 270,
+    "height": 91
+  },
   "lhotel-marrakech": {
     "src": "/clients/lhotel-marrakech.png",
     "width": 394,
@@ -13,6 +18,11 @@
     "src": "/clients/london-velvet.png",
     "width": 1104,
     "height": 86
+  },
+  "queen-rose": {
+    "src": "/clients/queen-rose.png",
+    "width": 565,
+    "height": 240
   },
   "salsa-rose": {
     "src": "/clients/salsa-rose.png",

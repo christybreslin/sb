@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
 import Feed from "@/components/Feed";
+import { SHARE } from "@/lib/studio";
 
-export const metadata: Metadata = { title: "The Feed" };
+const description = "Photography and content from Studio Borne shoots for luxury and lifestyle brands.";
+
+export const metadata: Metadata = {
+  title: "The Feed",
+  description,
+  openGraph: { ...SHARE, title: "The Feed | Studio Borne", description },
+};
 
 export default function FeedPage() {
   return (

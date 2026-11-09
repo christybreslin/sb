@@ -222,10 +222,10 @@ export default function Home() {
             <p className="cap">Clients</p>
             <Dots on={0} count={4} />
           </div>
-          <Marquee seconds={40} className="cl-strip">
+          <Marquee seconds={56} className="cl-strip">
             {clients.map((c) => (
               <div key={c.name} className="lg">
-                <Image src={c.src} alt={c.name} width={c.width} height={c.height} sizes="200px" draggable={false} />
+                <Image src={c.src} alt={c.name} width={c.width} height={c.height} sizes="200px" draggable={false} data-logo={c.key} />
               </div>
             ))}
           </Marquee>

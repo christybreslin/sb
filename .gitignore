@@ -44,3 +44,6 @@ next-env.d.ts
 /studio-b/
 /images/
 /inspo/
+
+# The final design export, kept as the design source (scripts/extract-design-assets.py reads it)
+/Studio Borne – website.html
