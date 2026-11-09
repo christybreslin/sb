@@ -76,6 +76,7 @@ export default function Home() {
               alt="Black and white photograph from behind of a woman in a wide straw hat tied with a long black satin ribbon"
               fill
               sizes="76vw"
+              quality={92}
             />
           </div>
           <h1 className="word" aria-label="The studio, Studio Borne">

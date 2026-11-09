@@ -241,6 +241,14 @@ a.ig:hover {
   --feed-gap: clamp(0.2rem, 0.4vw, 0.4rem);
 }
 
+/* On phones the photos and the names beneath them sit inside the page frame,
+   so its line never runs through them. */
+@media (max-width: 767px) {
+  .feed-page {
+    padding-inline: calc(clamp(10px, 1.2vw, 18px) + 8px);
+  }
+}
+
 /* Arriving on the Feed, the photos fade in one after another, row by row. */
 @keyframes tile-arrive {
   from { opacity: 0; }
@@ -257,49 +265,41 @@ a.ig:hover {
   clip-path: inset(-200vh -100vw 0 -100vw);
 }
 
-/* The client's name. With a pointer it comes up in large letters over the
-   bottom of the photo, linen on darker photos and charcoal on lighter ones... */
+/* The client's name comes up in large letters over the bottom of the photo,
+   linen on darker photos and charcoal on lighter ones: under the pointer, or
+   on a touch screen when the photo is tapped (see Tile in Feed.tsx). */
+.tile-name {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  padding: 0 clamp(0.75rem, 1.4vw, 1.25rem) clamp(0.6rem, 1.2vw, 1.1rem);
+  font-size: clamp(1.6rem, 4.6vw, 4.75rem);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  color: var(--color-linen);
+  opacity: 0;
+  translate: 0 0.35em;
+  transition: opacity 0.35s ease, translate 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.tile[data-tone="dark"] .tile-name {
+  color: var(--color-charcoal);
+}
+.tile[data-shown] .tile-name {
+  opacity: 1;
+  translate: 0 0;
+}
+/* The brief pause before it appears means a pointer merely passing over, or
+   a photo scrolling past underneath it, does nothing. */
 @media (hover: hover) {
-  .tile-name {
-    position: absolute;
-    inset-inline: 0;
-    bottom: 0;
-    padding: 0 clamp(0.75rem, 1.4vw, 1.25rem) clamp(0.6rem, 1.2vw, 1.1rem);
-    font-size: clamp(2rem, 4.6vw, 4.75rem);
-    font-weight: 500;
-    line-height: 0.95;
-    letter-spacing: -0.035em;
-    text-transform: uppercase;
-    text-wrap: balance;
-    color: var(--color-linen);
-    opacity: 0;
-    translate: 0 0.35em;
-    transition: opacity 0.35s ease, translate 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-    pointer-events: none;
-  }
-  .tile[data-tone="dark"] .tile-name {
-    color: var(--color-charcoal);
-  }
-  /* The brief pause before it appears means a pointer merely passing over, or
-     a photo scrolling past underneath it, does nothing. */
   .tile:hover .tile-name,
   .tile:focus-visible .tile-name {
     opacity: 1;
     translate: 0 0;
     transition-delay: 0.09s;
-  }
-}
-/* ...and on touch screens, which have no hover, it sits small beneath. */
-@media (hover: none) {
-  .tile-name {
-    display: flex;
-    height: 2.5rem;
-    align-items: center;
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--color-body);
   }
 }
 

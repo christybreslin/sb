@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, type CSSProperties } from "react";
+import { useEffect, useRef, type CSSProperties, type MouseEvent } from "react";
 import Image from "next/image";
 import Lenis from "lenis";
 import { arrange, featured, feed, photo, type Photo, type PhotoId } from "@/lib/gallery";
@@ -27,8 +27,16 @@ const STAGGERED = 9;
 
 /* On hover (or keyboard focus) the client's name comes up in large letters
    over the bottom of the photo, light or dark to suit the photo. On touch
-   screens it sits small beneath the photo instead. `order` sets when this
-   photo fades in as the page arrives. */
+   screens a tap shows it, and a second tap, or a tap on another photo, puts
+   it away. `order` sets when this photo fades in as the page arrives. */
+function toggleName(e: MouseEvent<HTMLElement>) {
+  if (window.matchMedia("(hover: hover)").matches) return;
+  const tile = e.currentTarget;
+  const show = !("shown" in tile.dataset);
+  document.querySelectorAll<HTMLElement>(".tile[data-shown]").forEach((t) => delete t.dataset.shown);
+  if (show) tile.dataset.shown = "";
+}
+
 function Tile({
   photo,
   sizes,
@@ -44,6 +52,7 @@ function Tile({
     <figure
       tabIndex={0}
       data-tone={photo.tone}
+      onClick={toggleName}
       className="tile relative"
       style={{ "--order": order } as CSSProperties}
     >

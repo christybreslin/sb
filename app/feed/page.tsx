@@ -7,7 +7,7 @@ export default function FeedPage() {
   return (
     /* Clipped, so the longer columns hanging below the frame do not add to the
        length of the page. */
-    <main className="overflow-clip px-(--feed-gap)">
+    <main className="feed-page overflow-clip px-(--feed-gap)">
       <h1 className="sr-only">The Feed</h1>
       <Feed />
     </main>
