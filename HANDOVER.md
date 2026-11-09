@@ -1,10 +1,12 @@
 # Studio Borne v2: handover
 
-Status as of 7 October 2026. The site is committed and pushed to the `v2` branch of
-https://github.com/christybreslin/sb (private). **`main` on that repo is the old site and is
-what Vercel deploys to production; it has not been touched.** `v2` shares no history with
-`main`, so replacing the old site means either pointing Vercel's production branch at `v2`
-or force-pushing `v2` over `main`. That is the owner's call. The production build passes.
+Status as of 9 November 2026. v2 is on `main` of https://github.com/christybreslin/sb
+(private), which is what Vercel deploys to production; the old `v2` branch is stale.
+
+On 9 November the site was rebuilt from the owner's final Claude Design export,
+`Studio Borne – website.html` (repo root, untracked, 7 MB), and a developer brief. The
+export holds two boards, "The studio – home" and "Say hello"; the design is final and is
+built faithfully. The previous linen-white version is commit `a36a765`.
 
 ## Run it
 
@@ -13,7 +15,7 @@ npx next dev -p 3001
 ```
 
 - This Mac: http://localhost:3001
-- Other devices on the same Wi-Fi: http://<this-mac's-ip>:3001 (was 192.168.0.107)
+- Other devices on the same Wi-Fi: http://<this-mac's-ip>:3001 (was 192.168.1.167)
 
 **Use port 3001, not 3000.** Another project (`~/workspace/claude/tart`) keeps a dev server
 on 3000. When both ran on 3000, `localhost:3000` showed this site but the network address
@@ -26,10 +28,16 @@ Checks: `npx eslint .`, `npx tsc --noEmit`, `npx next build`. All pass.
 
 | Route | State |
 |---|---|
-| `/` | One still screen, no scroll. Red wordmark fades in, the tagline's two halves slide in from either side and meet at the ampersand (option H7, chosen from ten), nav drops in on first mouse move. No footer. |
+| `/` | The "The studio – home" board (`app/page.tsx`, styles in `app/home.css`, scoped to `.home`). Opener: the sb logo stands still while the red ball rolls in once from the right edge; caption, thin line and "To the studio". Then the hero: stepped serif STUDIO with BORNE, gliding into one line "STUDIO." and back on a 7s loop, beside the straw-hat photo, with section links bottom left. Then the intro line, Who we are, From the studio (gliding photo strip), What we do (services dropdown), Clients (gliding logo strip), Why it works, and the sign-off: "Say hello." and The feed · email. Sections reveal as they are scrolled to (`components/StudioMotion.tsx`). |
 | `/feed` | The main piece of work. See below. |
-| `/studio` | "The studio" (was About us; replaces Who, What and Why, which were deleted at the owner's request). Modelled on https://www.hardholy.com: small soft-brown text in narrow columns, whole uncropped photos, text and photo holding near the top while the taller one scrolls, and a chapter list at the right with the current chapter in italics (`components/StudioIndex.tsx`). Order: opening line and "Who we are", What we do (with a labelled "What that includes +" list of services), Why it works, closing photo with links to Say hello and The Feed. Content is `components/StudioContent.tsx`. Parts arrive as they are scrolled to, headings and paragraphs one after another (the owner chose "stagger" from seven options; `components/StudioMotion.tsx`). A "Clients" chapter shows the clients passing slowly in a line. Five logos were taken from the clients' own websites, turned single-colour brown by `scripts/make-client-logos.py` (sources in `scripts/client-logos/`) and saved to `public/clients/`. **Queen Rose and Harriet and Hera have no logo yet** (no official site could be identified) and are set in type. Eldon Cashmere now trades as "Eldon London", which is what its logo says. The owner has not yet confirmed the logos or that the clients are happy to be shown. Still being refined. No serif has been chosen, so it uses the site's one typeface. The Ellie and Honor section was removed at the owner's request (they are still named under "Why it works"). |
-| `/contact` | One screen, large email link. Not reviewed. |
+| `/studio` | Redirects to `/` (`next.config.ts`). |
+| `/contact` | The "Say hello" board (`app/contact/page.tsx`, `app/contact/hello.css`). |
+
+Shared: brand tokens and fonts (Figtree, Noto Serif Display) in `app/layout.tsx` and
+`app/globals.css`; the thin page frame (`.page-frame`); the header with logo and tabs on
+every page but home (`components/Nav.tsx`); the sb logo (`components/Logo.tsx`); the two
+gliding strips (`components/Strip.tsx`: drift, pause on hover, sideways trackpad scroll,
+drag, swipe). Clients shows the five logos we have, in their own colours.
 
 ### The Feed (`components/Feed.tsx`, styles in `app/globals.css`)
 
@@ -54,8 +62,9 @@ Checks: `npx eslint .`, `npx tsc --noEmit`, `npx next build`. All pass.
 
 ### Assets and scripts
 
-- `public/wordmark.png`: the red STUDIO BORNE wordmark, cut from the old logo artwork by
-  `scripts/extract-logo.py`.
+- `public/studio/`: the photos from the design boards, unpacked from the export by
+  `scripts/extract-design-assets.py`. Alt text is in `lib/studio.ts` and `app/page.tsx`.
+- `public/clients/`: client logos in their own colours, made by `scripts/make-client-logos.py`.
 - `public/gallery/`: web-sized photos made from `images/` by
   `scripts/optimize-images.mjs`, which also writes `lib/gallery-data.json`.
 - `public/cursors/`: the blob pointer at 1x and 2x, made by `scripts/make-cursors.mjs`.
@@ -89,13 +98,10 @@ Decisions the owner has made: no scroll on the home page; tagline under the logo
 gallery lives on The Feed; hover lettering is option 2b (small bold spaced capitals) in soft
 brown; names under the photo, not over it.
 
-Hover reactions, added site-wide because the owner asked for "hover reaction and dynamism
-everywhere" and found a first, quieter pass invisible. Keep them visible when changing things:
-
-- Nav tabs: the words roll up and are replaced from beneath (`.roll`), and the underline draws in (`.link-draw`). The small wordmark swells.
-- Home: the wordmark leans towards the pointer; the tagline opens out when hovered.
-- Studio: photos lean towards the pointer (`data-magnet`, `components/PointerEffects.tsx`); in the Clients line the hovered logo lifts and the others fade back; "Say hello" and "See The Feed" have their underline swept away and redrawn (`.link-sweep`); the "+" turns to a cross and the services arrive in sequence.
-- Say hello: the text rises in on arrival; a rule draws under the email as it turns from red to ink.
+Hover reactions must stay visible (the owner found a quiet first pass invisible): tabs and
+links underline and turn brick red, section links' dots turn red and grow, reel photos zoom
+slightly, client tiles lift, the services "+" turns to "–", "Say hello." turns red and its dot
+steps out, and the header logo swells.
 
 ## Abandoned, do not revive without asking
 
@@ -108,16 +114,15 @@ everywhere" and found a first, quieter pass invisible. Keep them visible when ch
 
 ## Open items
 
-1. Refine `/studio` with the owner; get logos for Queen Rose and Harriet and Hera, and confirm the other five; get a verdict on Say hello.
-2. Proper descriptions (alt text) for the Feed photos, which are generic for now; confirm VB is Villa Mabrouka; the Clients line on `/studio` still says "Queen Rose" and "Eldon London".
-3. Confirm `hello@studioborne.co`. Social links were left out because the old ones went
-   nowhere.
+1. Logo files for Queen Rose and Harriet and Hera (left out of Clients until supplied); the Instagram link (hidden until supplied); whether vertical mouse-wheel over a strip should scroll it sideways (currently only trackpad sideways scroll and drag, so the page never gets stuck).
+2. Proper descriptions (alt text) for the Feed photos, which are generic for now; confirm VB is Villa Mabrouka; 
+3. Email is now `hello@studioborne.co.uk` everywhere (confirmed in the brief).
 4. Hover timing and scroll weight were still being tuned at the last exchange. The dials:
    `transition-delay` under `@media (hover: hover)` in `globals.css`; the `step < 5` and
    90ms values in `Feed.tsx`; `lerp` and `wheelMultiplier` on the Lenis instance.
 5. The Feed spreads each client's photos apart automatically (`arrange` in `lib/gallery.ts`); on phones two same-client photos still meet side by side at a couple of scroll positions.
 6. `README.md` is still the create-next-app default.
-7. Putting `v2` live (see the top of this file). The owner's global rule for commits: no Claude co-author or session trailers, and `git config user.email` must be `christybreslin@icloud.com`.
+7. The owner's global rule for commits: no Claude co-author or session trailers, and `git config user.email` must be `christybreslin@icloud.com`.
 
 ## Gotchas
 

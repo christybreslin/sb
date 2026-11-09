@@ -3,12 +3,16 @@
 @source not "../studio-b";
 
 @theme inline {
-  --color-cream: #faf6ee;
-  --color-red: #cc0000;
-  --color-ink: #1c1c1a;
-  --color-brown: #7a5a40;
+  /* The brand colours from the approved boards. Brick red is for the logo's
+     ball and small accents only. */
+  --color-linen: #f7f4ed;
+  --color-beige: #f0ebe1;
+  --color-charcoal: #48413c;
+  --color-body: #5e5650;
+  --color-brick: #a93427;
 
-  --font-sans: var(--font-instrument), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-sans: var(--font-figtree), "Helvetica Neue", Arial, sans-serif;
+  --font-serif: var(--font-noto-serif), Georgia, serif;
 }
 
 :root {
@@ -17,12 +21,12 @@
 }
 
 html {
-  background: var(--color-cream);
+  background: var(--color-linen);
 }
 
 body {
-  background: var(--color-cream);
-  color: var(--color-ink);
+  background: var(--color-linen);
+  color: var(--color-charcoal);
   font-family: var(--font-sans);
   font-size: 1.0625rem;
   line-height: 1.5;
@@ -49,12 +53,12 @@ body {
 }
 
 ::selection {
-  background: var(--color-red);
-  color: var(--color-cream);
+  background: var(--color-brick);
+  color: var(--color-linen);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-red);
+  outline: 2px solid var(--color-brick);
   outline-offset: 4px;
 }
 
@@ -72,58 +76,10 @@ body {
   background-size: 100% 1px;
 }
 
-/* A link that is always underlined: on hover the line is swept away to the
-   right and drawn again from the left. */
-.link-sweep {
-  padding-bottom: 0.15em;
-  background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 100% 1px;
-  transition: color 0.3s ease;
-}
-.link-sweep:hover {
-  color: var(--color-red);
-  animation: link-sweep 0.75s cubic-bezier(0.65, 0, 0.35, 1);
-}
-@keyframes link-sweep {
-  0% { background-position: 100% 100%; background-size: 100% 1px; }
-  45% { background-position: 100% 100%; background-size: 0 1px; }
-  46% { background-position: 0 100%; background-size: 0 1px; }
-  100% { background-position: 0 100%; background-size: 100% 1px; }
-}
-
-/* Rolling text: on hover the words roll up out of sight and the same words
-   roll in from beneath. */
-.roll {
-  display: inline-block;
-  overflow: hidden;
-  vertical-align: bottom;
-}
-.roll > span {
-  position: relative;
-  display: block;
-  transition: translate 0.55s cubic-bezier(0.65, 0, 0.35, 1);
-}
-.roll > span::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 100%;
-  left: 0;
-}
-a:hover .roll > span {
-  translate: 0 -100%;
-}
-
 /* Leaning towards the pointer (see PointerEffects.tsx). */
 [data-magnet] {
   translate: var(--mx, 0px) var(--my, 0px);
   transition: translate 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* The small wordmark in the nav swells slightly under the pointer. */
-.wordmark-link img {
-  transition: scale 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.wordmark-link:hover img {
-  scale: 1.07;
 }
 
 /* Text that comes up into place when its page opens. */
@@ -137,234 +93,98 @@ a:hover .roll > span {
   animation-delay: 0.15s;
 }
 
-/* The large email address on Say hello: a rule is drawn under it and it
-   turns from red to ink. */
-.email-link {
-  padding-bottom: 0.08em;
-  background: linear-gradient(currentColor, currentColor) no-repeat 100% 100% / 0 0.05em;
-  transition: background-size 0.8s cubic-bezier(0.22, 1, 0.36, 1), color 0.5s ease;
+/* The thin charcoal line drawn just inside the edge of every page. */
+.page-frame {
+  position: relative;
+  min-height: 100svh;
 }
-.email-link:hover {
-  color: var(--color-ink);
-  background-position: 0 100%;
-  background-size: 100% 0.05em;
-}
-
-/* Small wide-tracked capitals for the nav. */
-.label {
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
-
-/* The large line that opens a page. */
-.heading {
-  font-size: clamp(2.25rem, 5.2vw, 4.5rem);
-  font-weight: 500;
-  line-height: 1.02;
-  letter-spacing: -0.035em;
-  text-wrap: balance;
-}
-
-/* ── The studio ── */
-/* Small running text in a narrow column, with a lot of cream around it. */
-.studio-text {
-  font-size: 0.9375rem;
-  line-height: 1.45;
-}
-.studio-text p,
-.studio-text details {
-  margin-top: 1.1em;
-}
-.studio-text h2 {
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-}
-/* A run of sub-headed passages: each heading sits tight on its paragraph. */
-.studio-text h3 {
-  margin-top: 1.9em;
-  font-weight: 600;
-}
-.studio-text h2 + h3 {
-  margin-top: 1.1em;
-}
-.studio-text h3 + p {
-  margin-top: 0.15em;
-}
-/* The larger line that opens and closes the page. */
-.studio-lead {
-  font-size: 1.35rem;
-  font-weight: 500;
-  line-height: 1.25;
-  letter-spacing: -0.01em;
-}
-/* What we do: each half of the work under a small spaced red heading, its
-   text set square. */
-.studio-work h3 {
-  margin-top: 0;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--color-red);
-}
-.studio-work h3 + p {
-  margin-top: 0.8em;
-}
-.studio-work p {
-  text-align: justify;
-  hyphens: auto;
-}
-/* "What our services include" is a band between two red rules; opening it
-   turns the chevron over and brings the services in one after another,
-   centred, each on its own ruled line. */
-.studio-more summary {
-  display: flex;
-  min-height: 3.5rem;
-  align-items: center;
-  justify-content: center;
-  gap: 0.9rem;
-  list-style: none;
-  border-block: 1px solid var(--color-red);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--color-red);
-  transition: background-color 0.3s ease, letter-spacing 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.studio-more summary:hover {
-  background: rgb(204 0 0 / 0.06);
-  letter-spacing: 0.3em;
-}
-.studio-more summary::-webkit-details-marker {
-  display: none;
-}
-.studio-more summary::after {
+.page-frame::after {
   content: "";
-  width: 0.45rem;
-  height: 0.45rem;
-  margin-top: -0.25rem;
-  border-right: 1.5px solid currentColor;
-  border-bottom: 1.5px solid currentColor;
-  rotate: 45deg;
-  transition: rotate 0.3s ease, margin 0.3s ease;
-}
-.studio-more[open] summary::after {
-  rotate: 225deg;
-  margin-top: 0.25rem;
-}
-.studio-more-intro {
-  margin-inline: auto;
-  max-width: 32.5rem;
-  padding-top: 0.5rem;
-  font-style: italic;
-  text-align: justify;
-  text-align-last: center;
-}
-.studio-more ul {
-  padding-top: 1.25rem;
-  text-align: center;
-}
-.studio-more li {
-  padding: 0.85rem 0;
-  border-top: 1px solid rgb(122 90 64 / 0.2);
-}
-.studio-more li:last-child {
-  border-bottom: 1px solid rgb(122 90 64 / 0.2);
-}
-@keyframes service-in {
-  from { opacity: 0; translate: 0 0.5rem; }
-}
-.studio-more[open] .studio-more-intro,
-.studio-more[open] li {
-  animation: service-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-.studio-more[open] li:nth-child(1) { animation-delay: 0.05s; }
-.studio-more[open] li:nth-child(2) { animation-delay: 0.1s; }
-.studio-more[open] li:nth-child(3) { animation-delay: 0.15s; }
-.studio-more[open] li:nth-child(4) { animation-delay: 0.2s; }
-.studio-more[open] li:nth-child(5) { animation-delay: 0.25s; }
-.studio-more[open] li:nth-child(6) { animation-delay: 0.3s; }
-.studio-more[open] li:nth-child(7) { animation-delay: 0.35s; }
-
-/* The chapter list: the current chapter is italic and steps a little to the
-   right; the others lean that way on hover. */
-.studio-index-link {
-  transition: translate 0.5s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s ease;
-}
-.studio-index-link:hover {
-  color: var(--color-red);
-  translate: 0.25em 0;
-}
-.studio-index-link[aria-current] {
-  font-style: italic;
-  translate: 0.5em 0;
+  position: absolute;
+  z-index: 30;
+  inset: clamp(10px, 1.2vw, 18px);
+  border: 1px solid rgba(72, 65, 60, 0.35);
+  pointer-events: none;
 }
 
-/* The clients' logos, each in its own colours (those without a logo file are
-   set in the same small spaced capitals as the names on The Feed), in one line
-   that drifts from right to left and can be scrolled or dragged sideways (see
-   Clients.tsx). */
-.clients {
+/* The header on every page but home, as on the Say hello board. */
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px 40px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 28px 24px;
+}
+.site-logo {
+  display: block;
+  margin-left: clamp(0px, 4vw, 56px);
+  line-height: 0;
+}
+.site-logo svg {
+  display: block;
+  width: 44px;
+  height: auto;
+  transition: scale 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.site-logo:hover svg {
+  scale: 1.07;
+}
+.site-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px clamp(24px, 4vw, 48px);
+}
+.site-tabs a {
+  padding: 12px 0;
+  border-bottom: 1px solid transparent;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: border-color 0.3s, color 0.3s;
+}
+.site-tabs a:hover {
+  color: var(--color-brick);
+  border-color: currentColor;
+}
+.site-tabs a[aria-current] {
+  border-color: currentColor;
+}
+
+/* A line that glides on its own and can be scrolled or dragged sideways (see
+   Strip.tsx). Each page sets the spacing of its own copies. */
+.strip {
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scrollbar-width: none;
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
-  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
 }
-.clients::-webkit-scrollbar {
+.strip::-webkit-scrollbar {
   display: none;
 }
 @media (pointer: fine) {
-  .clients,
-  .clients li {
+  .strip,
+  .strip * {
     cursor: grab;
   }
-  .clients[data-dragging],
-  .clients[data-dragging] li {
+  .strip[data-dragging],
+  .strip[data-dragging] * {
     cursor: grabbing;
   }
 }
-.clients[data-dragging] {
+.strip[data-dragging] {
   user-select: none;
 }
-.clients-track {
+.strip-track {
   display: flex;
   width: max-content;
 }
-.clients ul {
+.strip-copy {
   display: flex;
   flex: none;
   align-items: center;
-}
-/* Logo heights are given in em, so this one size scales the whole line. */
-.clients li {
-  flex: none;
-  padding: 0.5rem clamp(1.75rem, 3.4vw, 3.25rem);
-  font-size: clamp(0.72rem, 1.05vw, 0.95rem);
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-/* Under the pointer one client stands forward and the rest step back. */
-.clients li {
-  transition: opacity 0.5s ease, translate 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-@media (hover: hover) {
-  .clients-track:hover li {
-    opacity: 0.3;
-  }
-  .clients-track li:hover {
-    opacity: 1;
-    translate: 0 -0.3rem;
-  }
-  .clients[data-dragging] li {
-    opacity: 1;
-    translate: none;
-  }
 }
 
 /* ── Studio motion: how text and photos arrive (see StudioMotion.tsx) ──
@@ -393,53 +213,6 @@ a:hover .roll > span {
 [data-ready] [data-reveal="text"] > :nth-child(6) { transition-delay: 0.5s; }
 [data-ready] [data-reveal="text"] > :nth-child(n + 7) { transition-delay: 0.6s; }
 
-/* ── Home: blank cream, then the wordmark ── */
-@keyframes wordmark-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-.wordmark-in {
-  animation: wordmark-in 1.4s ease 0.5s both;
-}
-
-/* The tagline arrives after the wordmark: its two halves slide in from either
-   side and meet at the ampersand, which appears last. */
-.tagline span {
-  display: inline-block;
-  animation: tagline-in 2.6s cubic-bezier(0.22, 1, 0.36, 1) 2s both;
-}
-.tagline [data-side="left"] {
-  --from: -3em;
-}
-.tagline [data-side="right"] {
-  --from: 3em;
-}
-.tagline [data-side="middle"] {
-  animation-duration: 1.2s;
-  animation-timing-function: ease;
-  animation-delay: 3.7s;
-}
-/* Once it has arrived, the line opens out a little under the pointer. */
-@media (hover: hover) {
-  .tagline {
-    transition: letter-spacing 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .tagline:hover {
-    letter-spacing: 0.1em;
-  }
-}
-@keyframes tagline-in {
-  from { opacity: 0; translate: var(--from, 0) 0; }
-}
-
-/* The nav waits above the top edge until the visitor moves. */
-.site-nav {
-  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.site-nav[data-shown="false"] {
-  transform: translateY(-100%);
-}
-
 /* ── The Feed ── */
 :root {
   /* The Feed's photos sit closer together than the page gutter. */
@@ -463,7 +236,7 @@ a:hover .roll > span {
 }
 
 /* The client's name. With a pointer it comes up in large letters over the
-   bottom of the photo, cream on darker photos and ink on lighter ones... */
+   bottom of the photo, linen on darker photos and charcoal on lighter ones... */
 @media (hover: hover) {
   .tile-name {
     position: absolute;
@@ -476,14 +249,14 @@ a:hover .roll > span {
     letter-spacing: -0.035em;
     text-transform: uppercase;
     text-wrap: balance;
-    color: var(--color-cream);
+    color: var(--color-linen);
     opacity: 0;
     translate: 0 0.35em;
     transition: opacity 0.35s ease, translate 0.6s cubic-bezier(0.22, 1, 0.36, 1);
     pointer-events: none;
   }
   .tile[data-tone="dark"] .tile-name {
-    color: var(--color-ink);
+    color: var(--color-charcoal);
   }
   /* The brief pause before it appears means a pointer merely passing over, or
      a photo scrolling past underneath it, does nothing. */
@@ -504,7 +277,7 @@ a:hover .roll > span {
     font-weight: 600;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--color-brown);
+    color: var(--color-body);
   }
 }
 
@@ -514,15 +287,8 @@ a:hover .roll > span {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .wordmark-in { animation: none; }
-  .tagline span { animation: none; }
-  .link-draw, .studio-index-link, .studio-more summary, .studio-more summary::after { transition: none; }
-  .roll > span, .tagline, .email-link, .clients li { transition: none; }
-  .link-sweep:hover, .page-in { animation: none; }
-  a:hover .roll > span { translate: none; }
-  .studio-more[open] li, .studio-more[open] .studio-more-intro { animation: none; }
-  .site-nav { transition: none; }
-  .site-nav[data-shown="false"] { transform: none; }
+  .link-draw, .site-tabs a, .strip-copy > * { transition: none; }
+  .page-in { animation: none; }
   .tile-name { transition: none; }
   .feed-column .tile { animation: none; }
 }

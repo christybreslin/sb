@@ -1,14 +1,19 @@
 import type { Metadata } from "next";
-import { Instrument_Sans } from "next/font/google";
+import { Figtree, Noto_Serif_Display } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import PointerEffects from "@/components/PointerEffects";
 
-const instrument = Instrument_Sans({
+const figtree = Figtree({
   subsets: ["latin"],
-  style: ["normal", "italic"],
-  variable: "--font-instrument",
+  variable: "--font-figtree",
+});
+
+const notoSerif = Noto_Serif_Display({
+  subsets: ["latin"],
+  weight: "variable",
+  variable: "--font-noto-serif",
 });
 
 export const metadata: Metadata = {
@@ -26,11 +31,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={instrument.variable}>
+    <html lang="en-GB" className={`${figtree.variable} ${notoSerif.variable}`}>
       <body>
-        <Nav />
-        {children}
-        <Footer />
+        {/* The thin line drawn just inside the edge of every page. */}
+        <div className="page-frame">
+          <Nav />
+          {children}
+          <Footer />
+        </div>
         <PointerEffects />
       </body>
     </html>

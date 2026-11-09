@@ -1,0 +1,624 @@
+/* The home page, ported from the "The studio – home" board in
+   "Studio Borne – website.html". Everything is scoped to .home so the board's
+   short class names stay on this page. */
+
+.home {
+  --g: clamp(32px, 5vw, 76px);
+  position: relative;
+  color: var(--color-charcoal);
+}
+.home img {
+  object-fit: cover;
+}
+.home .cap {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* The tabs, top right of the two opening screens. */
+.home .top {
+  position: absolute;
+  z-index: 10;
+  inset: 0 0 auto;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: clamp(30px, 3vw, 44px) var(--g) 0;
+}
+.home .top nav {
+  display: flex;
+  gap: clamp(16px, 2vw, 28px);
+}
+.home .top a {
+  padding: 8px 0;
+  border-bottom: 1px solid transparent;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: border-color 0.3s, color 0.3s;
+}
+.home .top a:hover,
+.home .top a[aria-current] {
+  border-color: currentColor;
+}
+.home .top a:hover {
+  color: var(--color-brick);
+}
+
+/* ── Opener: the logo stands still and the red ball rolls in and settles ── */
+.home .open {
+  position: relative;
+  height: 100svh;
+  min-height: 560px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.home .op-in {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 26px;
+  margin-top: -40px;
+}
+.home .op-cap {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+  width: 100%;
+}
+.home .op-cap .cap {
+  font-family: var(--font-serif);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+.home .open svg {
+  display: block;
+  width: clamp(170px, 15.5vw, 236px);
+  height: auto;
+  overflow: visible;
+}
+/* Rolls in from beyond the right edge, spinning, and eases to a stop. Once. */
+.home .open .ball {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: op-roll 1.9s cubic-bezier(0.15, 0.7, 0.25, 1) 0.6s both;
+}
+@keyframes op-roll {
+  from { transform: translateX(2600px) rotate(1440deg); }
+  to { transform: translateX(0) rotate(0); }
+}
+.home .scroll {
+  position: absolute;
+  left: 50%;
+  bottom: 40px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  transition: color 0.3s;
+}
+.home .scroll i {
+  display: block;
+  width: 1px;
+  height: 64px;
+  background: currentColor;
+}
+.home .scroll:hover {
+  color: var(--color-brick);
+}
+
+/* ── Hero: the stepped STUDIO glides into one line and back ── */
+.home .hero {
+  position: relative;
+  height: 720px;
+  overflow: hidden;
+}
+.home .hero .ph {
+  position: absolute;
+  inset: 0 -1% 0 25%;
+  filter: grayscale(1) brightness(1.03);
+  mix-blend-mode: multiply;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 14%, #000 88%, transparent);
+}
+.home .hero .ph img {
+  object-position: 50% 8%;
+}
+.home .word {
+  position: absolute;
+  z-index: 5;
+  left: var(--g);
+  top: 96px;
+  width: 2.35em;
+  height: 2.3em;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 480;
+  font-size: clamp(110px, 11vw, 168px);
+  line-height: 1;
+}
+.home .word span {
+  position: absolute;
+  display: block;
+  line-height: 0.74;
+  left: var(--x0);
+  top: var(--y0);
+  animation: word-go 7s cubic-bezier(0.7, 0, 0.25, 1) infinite alternate;
+  animation-delay: var(--d, 0s);
+}
+@keyframes word-go {
+  0%, 22% { left: var(--x0); top: var(--y0); }
+  62%, 100% { left: var(--x1); top: var(--y1); }
+}
+.home .word .dt {
+  color: var(--color-brick);
+}
+.home .word .ldot {
+  display: block;
+  width: 0.19em;
+  height: auto;
+  margin-top: 0.565em;
+}
+.home .word .bn {
+  font-family: var(--font-sans);
+  font-size: 0.15em;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Section links, stacked bottom left. */
+.home .idx {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+.home .idx a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+.home .idx a::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(72, 65, 60, 0.25);
+  transition: background 0.3s, scale 0.3s;
+}
+.home .idx a:hover {
+  color: var(--color-brick);
+}
+.home .idx a:hover::before {
+  background: var(--color-brick);
+  scale: 1.4;
+}
+.home .hidx {
+  position: absolute;
+  z-index: 5;
+  left: var(--g);
+  bottom: calc(clamp(30px, 3vw, 44px) + 16px);
+}
+
+/* Small dots: one brick, the rest faint. */
+.home .dots {
+  display: inline-flex;
+  gap: 7px;
+}
+.home .dots i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(72, 65, 60, 0.22);
+}
+.home .dots i.on {
+  background: var(--color-brick);
+}
+
+/* ── Intro line, on the beige band ── */
+.home .intro {
+  padding: 110px var(--g);
+  background: var(--color-beige);
+}
+.home .intro p {
+  margin: 0;
+  max-width: 20em;
+  font-size: clamp(30px, 3vw, 46px);
+  font-weight: 300;
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+}
+.home .intro em {
+  font-style: normal;
+  color: var(--color-brick);
+}
+
+/* Large uppercase title laid over a darkened photo. */
+.home .who .big h2,
+.home .w3-ph h2,
+.home .y3-ph h2 {
+  position: absolute;
+  z-index: 1;
+  left: calc(var(--g) + 4%);
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
+  color: #f7f4ee;
+  font-size: clamp(44px, 4.6vw, 72px);
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.home .w3-ph::after,
+.home .y3-ph::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(52, 46, 42, 0.45), rgba(52, 46, 42, 0.12));
+}
+
+/* ── Who we are ── */
+.home .who {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.home .who .big {
+  position: relative;
+  overflow: hidden;
+}
+.home .who .big img {
+  object-position: 50% 30%;
+}
+.home .who .txt {
+  display: flex;
+  flex-direction: column;
+  padding: 80px var(--g) 56px clamp(48px, 6vw, 96px);
+}
+.home .who .sm {
+  position: relative;
+  flex: none;
+  width: 54%;
+  aspect-ratio: 1;
+  margin: 0 auto 56px;
+}
+.home .who .sm img {
+  object-position: 60% 30%;
+}
+.home .who .sm .dots {
+  position: absolute;
+  right: 0;
+  bottom: -22px;
+}
+.home .body p {
+  margin: 0 0 18px;
+  max-width: 34em;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--color-body);
+}
+.home .body p:first-child {
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--color-charcoal);
+}
+
+/* ── From the studio and Clients: beige bands with a gliding strip ── */
+.home .reel,
+.home .clients {
+  padding: 90px 0 100px;
+  background: var(--color-beige);
+  overflow: hidden;
+}
+.home .band-h {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 var(--g) 32px;
+}
+.home .clients .band-h {
+  padding-bottom: 36px;
+}
+.home .strip-copy {
+  gap: 20px;
+  padding-right: 20px;
+}
+.home .reel figure {
+  position: relative;
+  flex: none;
+  width: 320px;
+  aspect-ratio: 4 / 5;
+  margin: 0;
+  overflow: hidden;
+}
+.home .reel figure img {
+  transition: transform 1.2s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.home .reel figure:hover img {
+  transform: scale(1.05);
+}
+.home .clients .lg {
+  flex: none;
+  width: 240px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  transition: translate 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.home .clients .lg:hover {
+  translate: 0 -4px;
+}
+.home .clients .lg img {
+  width: auto;
+  height: auto;
+  max-width: 200px;
+  max-height: 70px;
+  object-fit: contain;
+}
+
+/* ── What we do: text left, photo right ── */
+.home .what3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 760px;
+}
+.home .w3-txt {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 44px;
+  padding: 90px var(--g);
+}
+.home .w3-svc {
+  display: grid;
+  gap: 36px;
+}
+.home .w3-svc h3 {
+  display: flex;
+  align-items: center;
+  margin: 0 0 14px;
+  font-family: var(--font-serif);
+  font-size: clamp(26px, 2.2vw, 32px);
+  font-weight: 400;
+  line-height: 1.1;
+}
+.home .w3d {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  margin-right: 14px;
+  border-radius: 50%;
+  background: var(--color-brick);
+}
+.home .w3-svc p {
+  margin: 0 0 12px;
+  max-width: 34em;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--color-body);
+}
+.home .w3-ph {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* The services list opens beneath its rule. */
+.home details {
+  border-top: 1px solid rgba(72, 65, 60, 0.3);
+  border-bottom: 1px solid rgba(72, 65, 60, 0.3);
+}
+.home summary {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  padding: 18px 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+.home summary::-webkit-details-marker {
+  display: none;
+}
+.home summary::after {
+  content: "+";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+}
+.home details[open] summary::after {
+  content: "–";
+}
+.home summary:hover {
+  color: var(--color-brick);
+}
+.home details p,
+.home details li {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--color-charcoal);
+}
+.home details p {
+  margin: 0 0 12px;
+}
+.home details ul {
+  margin: 0 0 22px;
+  padding-left: 18px;
+  list-style: disc;
+  columns: 2;
+  column-gap: 40px;
+}
+
+/* ── Why it works: photo left, text right ── */
+.home .why3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 680px;
+}
+.home .y3-ph {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+}
+.home .y3-ph img {
+  object-position: 50% 82%;
+}
+.home .y3-txt {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 90px var(--g) 90px clamp(48px, 6vw, 96px);
+}
+.home .y3-txt p {
+  margin: 0 0 16px;
+  max-width: 32em;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--color-body);
+}
+.home .y3-txt .y3-stat {
+  margin-bottom: 28px;
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 2.4vw, 36px);
+  line-height: 1.2;
+  color: var(--color-charcoal);
+}
+
+/* ── Sign-off: Say hello, then The Feed and the email ── */
+.home .sign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 34px var(--g) 38px;
+  border-top: 1px solid rgba(72, 65, 60, 0.2);
+  text-align: center;
+}
+.home .sg-logo {
+  display: block;
+  width: 20px;
+  height: auto;
+}
+.home .sg-big {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(34px, 3vw, 44px);
+  line-height: 1;
+  transition: color 0.3s;
+}
+.home .sg-big:hover {
+  color: var(--color-brick);
+}
+.home .sg-dot {
+  display: inline-block;
+  width: 0.15em;
+  height: 0.15em;
+  margin-left: 0.04em;
+  border-radius: 50%;
+  background: var(--color-brick);
+  transition: translate 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.home .sg-big:hover .sg-dot {
+  translate: 0.15em 0;
+}
+.home .sg-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 18px;
+  margin: 4px 0 0;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.home .sg-links a {
+  color: var(--color-brick);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s;
+}
+.home .sg-links a:hover {
+  border-color: currentColor;
+}
+.home .sg-links span {
+  color: #b9afa6;
+}
+
+@media (max-width: 900px) {
+  .home .who,
+  .home .what3,
+  .home .why3 {
+    grid-template-columns: 1fr;
+  }
+  .home .who .big {
+    min-height: 520px;
+  }
+  .home .w3-ph {
+    min-height: 520px;
+  }
+  .home .y3-ph {
+    min-height: 480px;
+  }
+  .home .hero .ph {
+    inset: 0;
+    opacity: 0.85;
+  }
+  /* Over the photo the links need their own linen ground to stay legible. */
+  .home .hidx a {
+    width: max-content;
+    padding: 6px 10px 6px 0;
+    background: var(--color-linen);
+  }
+}
+/* STUDIO. has to fit across a phone when it runs into one line. */
+@media (max-width: 600px) {
+  .home .word {
+    font-size: 21vw;
+  }
+  .home .who .txt,
+  .home .y3-txt {
+    padding-left: var(--g);
+  }
+  .home details ul {
+    columns: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home .open .ball,
+  .home .word span {
+    animation: none;
+  }
+  .home .word span {
+    left: var(--x0);
+    top: var(--y0);
+  }
+  .home .reel figure img,
+  .home .clients .lg {
+    transition: none;
+  }
+}

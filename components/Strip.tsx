@@ -1,32 +1,22 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import Image from "next/image";
-import logos from "@/lib/clients-data.json";
+import { useEffect, useRef, type ReactNode } from "react";
 
-/* Logos come from scripts/make-client-logos.py, each in its own colours;
-   `height` is how tall each is shown, in the line's own units, chosen by eye
-   so they carry equal weight. Clients without a logo file yet are set in type. */
-const clients: { name: string; logo?: keyof typeof logos; height?: number }[] = [
-  { name: "Queen Rose" },
-  { name: "Eldon London", logo: "eldon-london", height: 3 },
-  { name: "L’Hôtel Marrakech", logo: "lhotel-marrakech", height: 2.9 },
-  { name: "Villa Mabrouka", logo: "villa-mabrouka", height: 6.4 },
-  { name: "Harriet and Hera" },
-  { name: "Salsa Rose", logo: "salsa-rose", height: 1.15 },
-  { name: "London Velvet", logo: "london-velvet", height: 1.15 },
-  { name: "Lindos Villas" },
-];
-
-/* How far the line drifts on its own, in pixels per second. */
-const DRIFT = 40;
-
-/* The clients in one line that drifts slowly from right to left and can be
-   scrolled sideways by hand: swiped on a phone, scrolled sideways on a
+/* A line of things that glides slowly from right to left, on a loop, and can
+   be scrolled sideways by hand: swiped on a phone, scrolled sideways on a
    trackpad, or dragged with the mouse. It stops while the pointer rests on it
    and carries on a moment after it is let go. The second copy of the line is
-   only there so it can loop without a gap. */
-export default function Clients() {
+   only there so it can loop without a gap. `speed` is how far it glides on its
+   own, in pixels per second. */
+export default function Strip({
+  speed,
+  className,
+  children,
+}: {
+  speed: number;
+  className?: string;
+  children: ReactNode;
+}) {
   const strip = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -51,7 +41,7 @@ export default function Clients() {
     const tick = (now: number) => {
       const dt = Math.min(now - last, 100) / 1000;
       last = now;
-      pos = drifting && !held && !resting && now > quietUntil ? pos + DRIFT * dt : el.scrollLeft;
+      pos = drifting && !held && !resting && now > quietUntil ? pos + speed * dt : el.scrollLeft;
       pos = within(pos);
       if (Math.abs(el.scrollLeft - pos) > 0.5) el.scrollLeft = pos;
       frame = requestAnimationFrame(tick);
@@ -106,36 +96,15 @@ export default function Clients() {
       el.removeEventListener("pointerenter", onEnter);
       el.removeEventListener("pointerleave", onLeave);
     };
-  }, []);
+  }, [speed]);
 
   return (
-    <div ref={strip} className="clients">
-      <div className="clients-track">
-        {[false, true].map((copy) => (
-          <ul key={String(copy)} aria-hidden={copy || undefined}>
-            {clients.map((c) => {
-              const logo = c.logo && logos[c.logo];
-              return (
-                <li key={c.name}>
-                  {logo ? (
-                    <Image
-                      src={logo.src}
-                      alt={c.name}
-                      width={logo.width}
-                      height={logo.height}
-                      sizes="20rem"
-                      draggable={false}
-                      style={{ height: `${c.height}em` }}
-                      className="w-auto max-w-none"
-                    />
-                  ) : (
-                    c.name
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-        ))}
+    <div ref={strip} className={`strip ${className ?? ""}`}>
+      <div className="strip-track">
+        <div className="strip-copy">{children}</div>
+        <div className="strip-copy" aria-hidden="true" inert>
+          {children}
+        </div>
       </div>
     </div>
   );

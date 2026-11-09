@@ -1,127 +1,40 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Logo from "@/components/Logo";
 
 const tabs = [
-  { href: "/studio", label: "The studio" },
-  { href: "/feed", label: "The Feed" },
+  { href: "/", label: "The studio" },
+  { href: "/feed", label: "The feed" },
   { href: "/contact", label: "Say hello" },
 ];
 
-/* How long the home page stays bare before the nav can be summoned, so the
-   wordmark always gets its moment alone even if the mouse is already moving. */
-const QUIET_MS = 1600;
-
-export default function Nav() {
+/* The three tabs in small spaced capitals; the current page is underlined. */
+export function NavLinks({ className }: { className?: string }) {
   const pathname = usePathname();
-  const home = pathname === "/";
-  const [revealed, setRevealed] = useState(false);
-  const [pastHero, setPastHero] = useState(false);
-  const [open, setOpen] = useState(false);
-
-  /* On the home page the nav drops in on the visitor's first movement. */
-  useEffect(() => {
-    if (!home || revealed) return;
-    const events = ["pointermove", "pointerdown", "keydown", "touchstart"];
-    const reveal = () => setRevealed(true);
-    const arm = setTimeout(() => {
-      events.forEach((e) => window.addEventListener(e, reveal, { once: true, passive: true }));
-    }, QUIET_MS);
-    return () => {
-      clearTimeout(arm);
-      events.forEach((e) => window.removeEventListener(e, reveal));
-    };
-  }, [home, revealed]);
-
-  /* Scrolling down the home page carries on into The Studio; once the big
-     wordmark has gone by, the nav and its small wordmark are always there. */
-  useEffect(() => {
-    if (!home) return;
-    const check = () => setPastHero(window.scrollY > window.innerHeight * 0.6);
-    check();
-    window.addEventListener("scroll", check, { passive: true });
-    return () => window.removeEventListener("scroll", check);
-  }, [home]);
-
-  const shown = !home || revealed || pastHero;
-  /* The home screen already has the big wordmark; elsewhere a small one leads home. */
-  const docked = !home || pastHero;
-
   return (
-    <header
-      data-shown={shown}
-      className="site-nav fixed inset-x-0 top-0 z-50 bg-cream text-red"
-    >
-      <nav
-        aria-label="Main"
-        className="grid h-16 grid-cols-[1fr_auto] items-center px-(--gutter) md:grid-cols-[1fr_auto_1fr]"
-      >
-        <Link
-          href="/"
-          aria-label="Studio Borne, home"
-          tabIndex={docked ? 0 : -1}
-          className={`justify-self-start transition-opacity duration-500 ${
-            docked ? "wordmark-link opacity-100" : "pointer-events-none opacity-0"
-          }`}
-        >
-          <Image
-            src="/wordmark.png"
-            alt=""
-            width={2025}
-            height={569}
-            className="h-7 w-auto"
-          />
+    <nav aria-label="Main" className={className}>
+      {tabs.map((t) => (
+        <Link key={t.href} href={t.href} aria-current={pathname === t.href ? "page" : undefined}>
+          {t.label}
         </Link>
+      ))}
+    </nav>
+  );
+}
 
-        <ul className="hidden items-center gap-8 md:flex lg:gap-12">
-          {tabs.map((t) => (
-            <li key={t.href}>
-              <Link
-                href={t.href}
-                aria-current={pathname === t.href ? "page" : undefined}
-                className="label link-draw py-2 [--draw-gap:0.2rem]"
-              >
-                <span className="roll">
-                  <span data-text={t.label}>{t.label}</span>
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-
-        <button
-          type="button"
-          onClick={() => setOpen(!open)}
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          className="label justify-self-end py-2 md:hidden"
-        >
-          {open ? "Close" : "Menu"}
-        </button>
-      </nav>
-
-      {open && (
-        <ul
-          id="mobile-menu"
-          className="flex h-[calc(100svh-4rem)] flex-col justify-center gap-2 bg-cream px-(--gutter) pb-16 md:hidden"
-        >
-          {tabs.map((t) => (
-            <li key={t.href}>
-              <Link
-                href={t.href}
-                onClick={() => setOpen(false)}
-                aria-current={pathname === t.href ? "page" : undefined}
-                className="block py-1 text-5xl font-medium tracking-tight aria-[current=page]:underline"
-              >
-                {t.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
+/* The header on every page but home, as on the Say hello board: the sb logo
+   on the left leads home, the tabs on the right. The home page carries its
+   own tabs in its opening screens. */
+export default function Nav() {
+  if (usePathname() === "/") return null;
+  return (
+    <header className="site-header">
+      <Link href="/" aria-label="Studio Borne home" className="site-logo">
+        <Logo />
+      </Link>
+      <NavLinks className="site-tabs" />
     </header>
   );
 }
